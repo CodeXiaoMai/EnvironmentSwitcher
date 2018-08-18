@@ -23,7 +23,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 import static com.xiaomai.environmentswitcher.Constants.ARRAY_LIST;
-import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_CONFIG_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_MODULE_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_SWITCHER_FILE_NAME;
@@ -34,10 +33,7 @@ import static com.xiaomai.environmentswitcher.Constants.VAR_CONTEXT;
 import static com.xiaomai.environmentswitcher.Constants.VAR_CURRENT_URL;
 import static com.xiaomai.environmentswitcher.Constants.VAR_DEFAULT_URL_PREFIX;
 import static com.xiaomai.environmentswitcher.Constants.VAR_DEFAULT_URL_SUFFIX;
-import static com.xiaomai.environmentswitcher.Constants.VAR_ENVIRONMENTS;
-import static com.xiaomai.environmentswitcher.Constants.VAR_ENVIRONMENT_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.VAR_MODULES;
-import static com.xiaomai.environmentswitcher.Constants.VAR_MODULE_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.VAR_PARAMETER_IS_DEBUG;
 import static com.xiaomai.environmentswitcher.Constants.VAR_PARAMETER_URL;
 import static com.xiaomai.environmentswitcher.Constants.VAR_URL_SUFFIX;
@@ -55,33 +51,17 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
         TypeSpec.Builder switchEnvironmentClassBuilder = TypeSpec.classBuilder(ENVIRONMENT_SWITCHER_FILE_NAME)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
-        MethodSpec.Builder getEnvironmentBuilder = MethodSpec.methodBuilder("getEnvironmentConfig")
+        MethodSpec.Builder getEnvironmentBuilder = MethodSpec.methodBuilder("getEnvironment")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(ENVIRONMENT_CONFIG_TYPE_NAME)
                 .addStatement(String.format("%s %s = new %s()", ENVIRONMENT_CONFIG_BEAN, VAR_CONFIG_BEAN, ENVIRONMENT_CONFIG_BEAN))
                 .addStatement(String.format("%s<%s> %s = new %s<>()", ARRAY_LIST, ENVIRONMENT_MODULE_BEAN, VAR_MODULES, ARRAY_LIST))
-                .addStatement(String.format("%s.setModules(%s)", VAR_CONFIG_BEAN, VAR_MODULES))
-                .addStatement(String.format("%s %s", ENVIRONMENT_MODULE_BEAN, VAR_MODULE_BEAN))
-                .addStatement(String.format("%s<%s> %s", ARRAY_LIST, ENVIRONMENT_BEAN, VAR_ENVIRONMENTS))
-                .addStatement(String.format("%s %s", ENVIRONMENT_BEAN, VAR_ENVIRONMENT_BEAN));
+                .addStatement(String.format("%s.setModules(%s)", VAR_CONFIG_BEAN, VAR_MODULES));
 
         for (Element element : elements) {
-            Module moduleAnnotation = element.getAnnotation(Module.class);
-            if (moduleAnnotation == null) {
-                continue;
-            }
             String moduleName = element.getSimpleName().toString();
             String moduleUpperCaseName = moduleName.toUpperCase();
             String moduleLowerCaseName = moduleName.toLowerCase();
-            String moduleAliasName = moduleAnnotation.alias();
-
-            getEnvironmentBuilder
-                    .addStatement(String.format("%s = new %s()", VAR_MODULE_BEAN, ENVIRONMENT_MODULE_BEAN))
-                    .addStatement(String.format("%s.setName(\"%s\")", VAR_MODULE_BEAN, moduleName))
-                    .addStatement(String.format("%s.setAlias(\"%s\")", VAR_MODULE_BEAN, moduleAliasName))
-                    .addStatement(String.format("%s.add(%s)", VAR_MODULES, VAR_MODULE_BEAN))
-                    .addStatement(String.format("%s = new %s<>()", VAR_ENVIRONMENTS, ARRAY_LIST))
-                    .addStatement(String.format("%s.setEnvironments(%s)", VAR_MODULE_BEAN, VAR_ENVIRONMENTS));
 
             FieldSpec currentUrlField = FieldSpec.builder(STRING_TYPE_NAME, String.format(VAR_CURRENT_URL, moduleUpperCaseName))
                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
@@ -135,28 +115,12 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
                     continue;
                 }
 
-                String environmentName = member.getSimpleName().toString();
-                String urlUpperCaseName = environmentName.toUpperCase();
                 String url = environmentAnnotation.url();
-                String alias = environmentAnnotation.alias();
 
                 if (environmentAnnotation.isRelease()) {
-                    defaultSpecBuilder.initializer(String.format("%s_%s", moduleUpperCaseName, urlUpperCaseName));
+                    defaultSpecBuilder.initializer(String.format("\"%s\"", url));
+                    break;
                 }
-
-                FieldSpec fieldSpec = FieldSpec.builder(TypeName.get(member.asType()),
-                        String.format("%s_%s", moduleUpperCaseName, urlUpperCaseName),
-                        Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                        .initializer(String.format("\"%s\"", url))
-                        .build();
-
-                switchEnvironmentClassBuilder.addField(fieldSpec);
-
-
-                getEnvironmentBuilder
-                        .addStatement(String.format("%s = new %s(\"%s\", \"%s\", \"%s\", \"%s\")", VAR_ENVIRONMENT_BEAN, ENVIRONMENT_BEAN, environmentName, url, alias, moduleName))
-                        .addStatement(String.format("%s.add(%s)", VAR_ENVIRONMENTS, VAR_ENVIRONMENT_BEAN));
-
             }
 
             switchEnvironmentClassBuilder.addField(defaultSpecBuilder.build()).build();

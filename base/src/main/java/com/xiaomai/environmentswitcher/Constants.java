@@ -2,6 +2,7 @@ package com.xiaomai.environmentswitcher;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
+import com.xiaomai.environmentswitcher.bean.EnvironmentConfigBean;
 
 public class Constants {
 
@@ -9,9 +10,9 @@ public class Constants {
     public static final String PACKAGE_NAME = "com.xiaomai.environmentswitcher";
 
     public static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
-    public static final String ENVIRONMENT_CONFIG_BEAN = PACKAGE_NAME + ".bean.EnvironmentConfigBean";
-    public static final String ENVIRONMENT_MODULE_BEAN = ENVIRONMENT_CONFIG_BEAN + ".ModuleBean";
-    public static final String ENVIRONMENT_BEAN = ENVIRONMENT_MODULE_BEAN + ".EnvironmentBean";
+    public static final String ENVIRONMENT_CONFIG_BEAN = EnvironmentConfigBean.class.getCanonicalName();
+    public static final String ENVIRONMENT_MODULE_BEAN = EnvironmentConfigBean.ModuleBean.class.getCanonicalName();
+    public static final String ENVIRONMENT_BEAN = EnvironmentConfigBean.ModuleBean.EnvironmentBean.class.getCanonicalName();
     public static final String ARRAY_LIST = "java.util.ArrayList";
 
     public static final String VAR_CONTEXT = "context";

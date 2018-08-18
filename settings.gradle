@@ -1,1 +1,1 @@
-include ':app', ':base', ':compiler'
+include ':app', ':base', ':compiler', ':compiler-release'

@@ -12,5 +12,5 @@ public @interface Environment {
 
     boolean isRelease() default false;
 
-    String name() default "";
+    String alias() default "";
 }
