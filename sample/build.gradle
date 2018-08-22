@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion compile_version
     defaultConfig {
-        applicationId "com.xiaomai.environmentswitcher"
+        applicationId "com.xiaomai.demo"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -30,22 +30,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    // EnvironmentSwitcher
-    debugAnnotationProcessor project(':compiler')
-    releaseAnnotationProcessor project(':compiler-release')
-    implementation project(':view')
+//     EnvironmentSwitcher
+//    debugAnnotationProcessor project(':compiler')
+    debugAnnotationProcessor "$group_id:$artifactId_compiler:$publishVersion_compiler"
+//    releaseAnnotationProcessor project(':compiler-release')
+    releaseAnnotationProcessor "$group_id:$artifactId_compiler_release:$publishVersion_compiler_release"
+//    implementation project(':environmentswitcher')
+    implementation "$group_id:$artifactId_environment_switcher:$publishVersion_environment_switcher"
 
-    compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.4.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 }

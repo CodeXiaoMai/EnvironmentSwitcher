@@ -1,9 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xiaomai.environmentswitcher.view">
-
-    <application>
-        <activity
-            android:name=".EnvironmentSwitchActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-    </application>
-</manifest>

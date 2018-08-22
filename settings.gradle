@@ -1,1 +1,1 @@
-include ':sample', ':base', ':compiler', ':compiler-release', ':view'
+include ':sample', ':base', ':compiler', ':compiler-release', ':environmentswitcher'
