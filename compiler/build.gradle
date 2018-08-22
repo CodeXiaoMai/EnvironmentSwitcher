@@ -1,9 +1,21 @@
 apply plugin: 'java-library'
+//apply plugin: 'com.novoda.bintray-release'
+//
+//publish{
+//    userOrg = user_org
+//    groupId = group_id
+//    artifactId = artifactId_compiler
+//    publishVersion = publishVersion_compiler
+//    desc = ''
+//    website = web_site
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.auto.service:auto-service:1.0-rc2'
-    compile project(':base')
+    implementation 'com.squareup:javapoet:1.9.0'
+    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+//    implementation project(':base')
+    implementation "$group_id:$artifactId_base:$publishVersion_base"
 }
 
 sourceCompatibility = "1.7"

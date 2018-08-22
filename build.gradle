@@ -1,15 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
-        
-
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.novoda:bintray-release:0.8.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -19,6 +19,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/xiaomai/maven/' }
     }
 }
 
@@ -27,5 +28,20 @@ task clean(type: Delete) {
 }
 
 ext {
-    compile_version = 28
+    compile_version = 27
+
+    artifactId_base = 'environmentswitcher-base'
+    artifactId_compiler = 'environmentswitcher-compiler'
+    artifactId_compiler_release = 'environmentswitcher-compiler-release'
+    artifactId_environment_switcher = 'environmentswitcher'
+    publishVersion_base = '1.0'
+    publishVersion_compiler = '1.0'
+    publishVersion_compiler_release = '1.0'
+    publishVersion_environment_switcher = '1.0'
+
+    user_org = "xiaomai"
+    user_emial = "xiaomai949804781@gmail.com"
+    group_id = "com.xiaomai.environmentswitcher"
+    web_site = "https://github.com/CodeXiaoMai/EnvironmentSwitcher"
+    gitUrl = "https://github.com/CodeXiaoMai/EnvironmentSwitcher.git"
 }

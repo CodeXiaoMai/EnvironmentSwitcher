@@ -1,9 +1,21 @@
 apply plugin: 'java-library'
+//apply plugin: 'com.novoda.bintray-release'
+
+//publish{
+//    userOrg = user_org
+//    groupId = group_id
+//    artifactId = artifactId_base
+//    publishVersion = publishVersion_base
+//    desc = ''
+//    website = web_site
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.squareup:javapoet:1.9.0'
+    implementation 'com.squareup:javapoet:1.9.0'
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+// ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
