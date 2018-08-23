@@ -9,6 +9,10 @@ public class Constants {
     public static final String ENVIRONMENT_SWITCHER_FILE_NAME = "EnvironmentSwitcher";
     public static final String PACKAGE_NAME = "com.xiaomai.environmentswitcher";
 
+    public static final String METHOD_NAME_GET_ENVIRONMENT_CONFIG = "getEnvironmentConfig";
+    public static final String METHOD_NAME_GET_XX_ENVIRONMENT = "get%sEnvironment";
+    public static final String METHOD_NAME_SET_XX_ENVIRONMENT = "set%sEnvironment";
+
     public static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
     public static final String ENVIRONMENT_CONFIG_BEAN = EnvironmentConfigBean.class.getCanonicalName();
     public static final String ENVIRONMENT_MODULE_BEAN = EnvironmentConfigBean.ModuleBean.class.getCanonicalName();

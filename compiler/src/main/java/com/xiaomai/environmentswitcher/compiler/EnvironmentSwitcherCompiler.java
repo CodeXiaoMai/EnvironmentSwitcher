@@ -27,6 +27,9 @@ import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_CONFIG_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_MODULE_BEAN;
 import static com.xiaomai.environmentswitcher.Constants.ENVIRONMENT_SWITCHER_FILE_NAME;
+import static com.xiaomai.environmentswitcher.Constants.METHOD_NAME_GET_ENVIRONMENT_CONFIG;
+import static com.xiaomai.environmentswitcher.Constants.METHOD_NAME_GET_XX_ENVIRONMENT;
+import static com.xiaomai.environmentswitcher.Constants.METHOD_NAME_SET_XX_ENVIRONMENT;
 import static com.xiaomai.environmentswitcher.Constants.MODE_PRIVATE;
 import static com.xiaomai.environmentswitcher.Constants.PACKAGE_NAME;
 import static com.xiaomai.environmentswitcher.Constants.VAR_CONFIG_BEAN;
@@ -55,7 +58,7 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
         TypeSpec.Builder switchEnvironmentClassBuilder = TypeSpec.classBuilder(ENVIRONMENT_SWITCHER_FILE_NAME)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
-        MethodSpec.Builder getEnvironmentBuilder = MethodSpec.methodBuilder("getEnvironmentConfig")
+        MethodSpec.Builder getEnvironmentBuilder = MethodSpec.methodBuilder(METHOD_NAME_GET_ENVIRONMENT_CONFIG)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(ENVIRONMENT_CONFIG_TYPE_NAME)
                 .addStatement(String.format("%s %s = new %s()", ENVIRONMENT_CONFIG_BEAN, VAR_CONFIG_BEAN, ENVIRONMENT_CONFIG_BEAN))
@@ -88,7 +91,7 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
                     .build();
             switchEnvironmentClassBuilder.addField(currentUrlField);
 
-            MethodSpec getMethod = MethodSpec.methodBuilder(String.format("get%sEnvironment", moduleName))
+            MethodSpec getMethod = MethodSpec.methodBuilder(String.format(METHOD_NAME_GET_XX_ENVIRONMENT, moduleName))
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
                     .returns(String.class)
                     .addParameter(CONTEXT_TYPE_NAME, VAR_CONTEXT)
@@ -110,7 +113,7 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
 
             switchEnvironmentClassBuilder.addMethod(getMethod);
 
-            MethodSpec setMethod = MethodSpec.methodBuilder(String.format("set%sEnvironment", moduleName))
+            MethodSpec setMethod = MethodSpec.methodBuilder(String.format(METHOD_NAME_SET_XX_ENVIRONMENT, moduleName))
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
                     .returns(void.class)
                     .addParameter(CONTEXT_TYPE_NAME, VAR_CONTEXT)

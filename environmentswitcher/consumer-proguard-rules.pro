@@ -24,3 +24,4 @@
 -dontwarn javax.lang.**
 -dontwarn javax.tools.**
 -dontwarn com.squareup.javapoet.**
+-keep class com.xiaomai.environmentswitcher.** { *; }

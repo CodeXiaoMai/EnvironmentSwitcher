@@ -39,7 +39,7 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
         ...
         implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.1'
         debugAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.0'
-		releaseAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.0'
+        releaseAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.0'
     }
     ```
     
@@ -51,7 +51,7 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
     dependencies {
         ...
         implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.1'
-		kaptDebug 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.0'
+        kaptDebug 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.0'
         kaptRelease 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.0'
     }
     ```

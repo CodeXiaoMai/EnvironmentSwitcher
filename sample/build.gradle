@@ -47,8 +47,8 @@ dependencies {
     debugAnnotationProcessor "$group_id:$artifactId_compiler:$publishVersion_compiler"
 //    releaseAnnotationProcessor project(':compiler-release')
     releaseAnnotationProcessor "$group_id:$artifactId_compiler_release:$publishVersion_compiler_release"
-    implementation project(':environmentswitcher')
-//    implementation "$group_id:$artifactId_environment_switcher:$publishVersion_environment_switcher"
+//    implementation project(':environmentswitcher')
+    implementation "$group_id:$artifactId_environment_switcher:$publishVersion_environment_switcher"
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'

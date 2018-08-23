@@ -34,10 +34,10 @@ ext {
     artifactId_compiler = 'environmentswitcher-compiler'
     artifactId_compiler_release = 'environmentswitcher-compiler-release'
     artifactId_environment_switcher = 'environmentswitcher'
-    publishVersion_base = '1.0'
-    publishVersion_compiler = '1.0'
-    publishVersion_compiler_release = '1.0'
-    publishVersion_environment_switcher = '1.1'
+    publishVersion_base = '1.2'
+    publishVersion_compiler = '1.2'
+    publishVersion_compiler_release = '1.2'
+    publishVersion_environment_switcher = '1.2'
 
     user_org = "xiaomai"
     user_emial = "xiaomai949804781@gmail.com"

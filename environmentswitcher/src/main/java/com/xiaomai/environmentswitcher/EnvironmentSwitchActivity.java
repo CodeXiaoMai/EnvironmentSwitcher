@@ -47,7 +47,7 @@ public class EnvironmentSwitchActivity extends Activity {
 
         try {
             Class<?> environmentSwitcherClass = Class.forName(Constants.PACKAGE_NAME + "." + Constants.ENVIRONMENT_SWITCHER_FILE_NAME);
-            Method getEnvironmentConfigMethod = environmentSwitcherClass.getMethod("getEnvironmentConfig");
+            Method getEnvironmentConfigMethod = environmentSwitcherClass.getMethod(Constants.METHOD_NAME_GET_ENVIRONMENT_CONFIG);
             EnvironmentConfigBean environmentConfigBean = (EnvironmentConfigBean) getEnvironmentConfigMethod.invoke(environmentSwitcherClass.newInstance());
             if (environmentConfigBean == null) {
                 return;
