@@ -47,4 +47,16 @@ public class EnvironmentConfig {
         @Environment(url = "http://news/sandbox/", alias = "沙箱")
         private String sandbox;
     }
+
+    /**
+     * 分享模块
+     */
+    @Module(alias = "分享")
+    class Share {
+        @Environment(url = "http://www.share.com", isRelease = true, alias = "正式")
+        private String online;
+
+        @Environment(url = "http://test.share.com", alias = "测试")
+        private String test;
+    }
 }
