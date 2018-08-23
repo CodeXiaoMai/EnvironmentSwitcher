@@ -4,6 +4,6 @@
     <application>
         <activity
             android:name=".EnvironmentSwitchActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
 </manifest>

@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/environment_switcher_bg_selector"
-    android:divider="@drawable/environment_switcher_divider"
-    android:orientation="vertical"
-    android:showDividers="end">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,4 +39,8 @@
             android:src="@drawable/environment_switcher_ic_bookmark" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/environment_switcher_divider" />
 </LinearLayout>

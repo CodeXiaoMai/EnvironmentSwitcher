@@ -37,7 +37,7 @@ ext {
     publishVersion_base = '1.0'
     publishVersion_compiler = '1.0'
     publishVersion_compiler_release = '1.0'
-    publishVersion_environment_switcher = '1.0'
+    publishVersion_environment_switcher = '1.1'
 
     user_org = "xiaomai"
     user_emial = "xiaomai949804781@gmail.com"

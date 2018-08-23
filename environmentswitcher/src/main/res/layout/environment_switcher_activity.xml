@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEEEEE"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,9 +27,10 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:divider="@null" />
 </LinearLayout>
