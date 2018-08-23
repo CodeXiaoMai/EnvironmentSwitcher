@@ -2,6 +2,8 @@
 
 **Environment Switcher** 是一个在 Android 的开发和测试阶段，用来一键切换环境的工具。
 
+![demo.gif](https://upload-images.jianshu.io/upload_images/5275145-b3529a5f32884ab9.gif?imageMogr2/auto-orient/strip)
+
 ### 为什么要做这个工具
 
 做这个工具是为了方便开发和测试人员在不重新打包的情况下快速切换环境。
@@ -28,28 +30,16 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 
 ### 使用方法
 
-1. 配置项目根目录的 build.gradle
-
-    ```
-    dependencies {
-        ...
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-    
-    ext {
-        ...
-        // 使用前可以查看当前最新版本号
-        publish_version = "0.0.1"
-    }
-    ```
-
-2. 配置项目的 build.gradle
+1. 配置项目的 build.gradle
 
 	java 版
 	
     ```
     dependencies {
         ...
+        implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.1'
+        debugAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.0'
+		releaseAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.0'
     }
     ```
     
@@ -60,10 +50,13 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
     ...
     dependencies {
         ...
+        implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.1'
+		kaptDebug 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.0'
+        kaptRelease 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.0'
     }
     ```
 
-3. 编写 EnvironmentConfig 文件
+2. 编写 EnvironmentConfig 文件
     
     例如：项目中包含两个模块，分别是 Music、News，而且每个模块的地址都不同。
     
@@ -114,9 +107,9 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
     }
     ```
 
-4. 点击菜单栏中的 “Build” -> “Rebuild Project”，等待编译完成。
+3. 点击菜单栏中的 “Build” -> “Rebuild Project”，等待编译完成。
 
-5. 在你的 App 中添加一个切换环境的入口，这个入口只在 debug 版显示。例如：在“我的”页面中。
+4. 在你的 App 中添加一个切换环境的入口，这个入口只在 debug 版显示。例如：在“我的”页面中。
     
     ```
     @Override
@@ -138,11 +131,10 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
     }
     ```
 
-6. 获取当前模块的地址：
+5. 获取当前模块的地址：
     
     ```
     EnvironmentSwitcher.getAppEnvironment(getApplication(), BuildConfig.DEBUG);
     EnvironmentSwitcher.getMusicEnvironment(getApplication(), BuildConfig.DEBUG);
     EnvironmentSwitcher.getNewsEnvironment(getApplication(), BuildConfig.DEBUG);
     ```
-
