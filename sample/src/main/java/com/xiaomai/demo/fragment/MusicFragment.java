@@ -51,7 +51,7 @@ public class MusicFragment extends Fragment {
     }
 
     private void getMusicList() {
-        AppRetrofit.getMusicRetrofit(getActivity().getApplication()).create(Api.class)
+        AppRetrofit.getMusicRetrofit(getActivity()).create(Api.class)
                 .getMusic()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

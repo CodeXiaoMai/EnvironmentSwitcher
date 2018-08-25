@@ -1,6 +1,6 @@
 package com.xiaomai.demo.net;
 
-import android.app.Application;
+import android.content.Context;
 
 import com.xiaomai.demo.BuildConfig;
 import com.xiaomai.environmentswitcher.EnvironmentSwitcher;
@@ -16,7 +16,7 @@ public class AppRetrofit {
 
     private static String sMusicHost = "";
 
-    public static Retrofit getMusicRetrofit(Application context) {
+    public static Retrofit getMusicRetrofit(Context context) {
         String host = EnvironmentSwitcher.getMusicEnvironment(context, BuildConfig.DEBUG);
         if (sMusicRetrofit == null || sMusicHost == null || !sMusicHost.equals((host))) {
             sMusicHost = host;
@@ -35,7 +35,7 @@ public class AppRetrofit {
 
     private static String sAppHost = "";
 
-    public static Retrofit getAppRetrofit(Application context) {
+    public static Retrofit getAppRetrofit(Context context) {
         String host = EnvironmentSwitcher.getAppEnvironment(context, BuildConfig.DEBUG);
         if (sAppRetrofit == null || sAppHost == null || !sAppHost.equals((host))) {
             sAppHost = host;

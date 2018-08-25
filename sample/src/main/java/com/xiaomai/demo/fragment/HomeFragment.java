@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getGanks() {
-        AppRetrofit.getAppRetrofit(getActivity().getApplication())
+        AppRetrofit.getAppRetrofit(getActivity())
                 .create(Api.class)
                 .getGank()
                 .subscribeOn(Schedulers.io())

@@ -6,12 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.xiaomai.demo.fragment.HomeFragment;
 import com.xiaomai.demo.fragment.MusicFragment;
 import com.xiaomai.demo.fragment.SettingsFragment;
+import com.xiaomai.environmentswitcher.EnvironmentSwitcher;
+import com.xiaomai.environmentswitcher.listener.OnEnvironmentChangeListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnEnvironmentChangeListener{
 
     private static final String TAG = "MainActivity";
 
@@ -47,5 +50,18 @@ public class MainActivity extends AppCompatActivity {
                 transaction.commit();
             }
         });
+
+        EnvironmentSwitcher.addOnEnvironmentChangeListener(this);
+    }
+
+    @Override
+    public void onEnvironmentChange(String module, String oldUrl, String newUrl) {
+        Toast.makeText(this, module + "环境由" + oldUrl + "切换为" + newUrl, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EnvironmentSwitcher.removeOnEnvironmentChangeListener(this);
     }
 }
