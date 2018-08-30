@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -12,7 +13,10 @@ import com.xiaomai.demo.fragment.HomeFragment;
 import com.xiaomai.demo.fragment.MusicFragment;
 import com.xiaomai.demo.fragment.SettingsFragment;
 import com.xiaomai.environmentswitcher.EnvironmentSwitcher;
+import com.xiaomai.environmentswitcher.bean.EnvironmentBean;
+import com.xiaomai.environmentswitcher.bean.ModuleBean;
 import com.xiaomai.environmentswitcher.listener.OnEnvironmentChangeListener;
+
 
 public class MainActivity extends AppCompatActivity implements OnEnvironmentChangeListener{
 
@@ -55,8 +59,12 @@ public class MainActivity extends AppCompatActivity implements OnEnvironmentChan
     }
 
     @Override
-    public void onEnvironmentChange(String module, String oldUrl, String newUrl) {
-        Toast.makeText(this, module + "环境由" + oldUrl + "切换为" + newUrl, Toast.LENGTH_SHORT).show();
+    public void onEnvironmentChange(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
+        Log.e(TAG, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
+                + ",切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl());
+
+        Toast.makeText(this, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
+                + "切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
