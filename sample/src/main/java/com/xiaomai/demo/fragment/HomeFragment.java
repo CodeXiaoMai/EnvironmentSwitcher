@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,14 +48,27 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvError = view.findViewById(R.id.tv_error);
-        listView = view.findViewById(R.id.list_view);
-        adapter = new MyAdapter();
-        listView.setAdapter(adapter);
+
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getGanks();
+            }
+        });
+
+        listView = view.findViewById(R.id.list_view);
+        adapter = new MyAdapter();
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                View firstChild = view.getChildAt(0);
+                swipeRefreshLayout.setEnabled(firstVisibleItem == 0 && (firstChild == null || firstChild.getTop() == 0));
             }
         });
     }

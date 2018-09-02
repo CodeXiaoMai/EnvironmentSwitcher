@@ -5,7 +5,14 @@ import com.xiaomai.environmentswitcher.annotation.Environment;
 import com.xiaomai.environmentswitcher.annotation.Module;
 
 /**
- * 环境配置类
+ * 环境配置类</br>
+ *
+ * ⚠ 建议不要引用该类中的任何子类和成员变量️，一但引用了非正式环境的属性，打包时混淆工具就不会移除该类，导致测试地址泄漏。</br>
+ * 而 Environment Switcher 在编译 Release 版本时，会自动隐藏测试环境地址。</br></br>
+ *
+ * 建议将该类中所有被 {@link Module} 和 {@link Environment} 修饰的类或成员变量用 private 修饰，</br>
+ * Environment Switcher 会在编译期间自动生成相应的 Module_XX 和 Environment_XX 静态常量。</br>
+ * 例如：通过 EnvironmentSwitcher.MODULE_APP 就可以获取到 App 模块下相应的所有环境</br>
  */
 public class EnvironmentConfig {
 
@@ -13,7 +20,7 @@ public class EnvironmentConfig {
      * 整个 App 的环境
      */
     @Module
-    class App {
+    private class App {
         @Environment(url = "https://gank.io/api/", isRelease = true, alias = "正式")
         private String online;
     }
@@ -22,7 +29,7 @@ public class EnvironmentConfig {
      * 特殊模块 Music 的环境
      */
     @Module(alias = "音乐")
-    class Music {
+    private class Music {
         @Environment(url = "https://www.codexiaomai.top/api/", isRelease = true, alias = "正式")
         private String online;
 
@@ -34,7 +41,7 @@ public class EnvironmentConfig {
      * 特殊模块 News 的环境
      */
     @Module(alias = "新闻")
-    class News {
+    private class News {
         @Environment(url = "http://news/release/", isRelease = true, alias = "正式")
         private String release;
 
@@ -52,7 +59,7 @@ public class EnvironmentConfig {
      * 分享模块
      */
     @Module(alias = "分享")
-    class Share {
+    private class Share {
         @Environment(url = "http://www.share.com", isRelease = true, alias = "正式")
         private String online;
 

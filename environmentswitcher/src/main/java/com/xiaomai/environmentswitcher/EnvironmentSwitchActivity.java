@@ -13,7 +13,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.xiaomai.environmentswitcher.bean.EnvironmentConfigBean;
+import com.xiaomai.environmentswitcher.bean.EnvironmentBean;
+import com.xiaomai.environmentswitcher.bean.ModuleBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,9 +32,10 @@ public class EnvironmentSwitchActivity extends Activity {
         context.startActivity(intent);
     }
 
-    private List<EnvironmentConfigBean.ModuleBean.EnvironmentBean> environmentBeans = new ArrayList<>();
+    private List<EnvironmentBean> environmentBeans = new ArrayList<>();
     private Adapter adapter;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,25 +49,21 @@ public class EnvironmentSwitchActivity extends Activity {
 
         try {
             Class<?> environmentSwitcherClass = Class.forName(Constants.PACKAGE_NAME + "." + Constants.ENVIRONMENT_SWITCHER_FILE_NAME);
-            Method getEnvironmentConfigMethod = environmentSwitcherClass.getMethod(Constants.METHOD_NAME_GET_ENVIRONMENT_CONFIG);
-            EnvironmentConfigBean environmentConfigBean = (EnvironmentConfigBean) getEnvironmentConfigMethod.invoke(environmentSwitcherClass.newInstance());
-            if (environmentConfigBean == null) {
-                return;
-            }
-            List<EnvironmentConfigBean.ModuleBean> modules = environmentConfigBean.getModules();
-            ArrayList<EnvironmentConfigBean.ModuleBean.EnvironmentBean> environmentBeans = new ArrayList<>();
-            for (EnvironmentConfigBean.ModuleBean module : modules) {
-                EnvironmentConfigBean.ModuleBean.EnvironmentBean environmentModule = new EnvironmentConfigBean.ModuleBean.EnvironmentBean();
+            Method getEnvironmentConfigMethod = environmentSwitcherClass.getMethod(Constants.METHOD_NAME_GET_MODULE_LIST);
+            ArrayList<ModuleBean> modules = (ArrayList<ModuleBean>) getEnvironmentConfigMethod.invoke(environmentSwitcherClass.newInstance());
+            ArrayList<EnvironmentBean> environmentBeans = new ArrayList<>();
+            for (ModuleBean module : modules) {
+                EnvironmentBean environmentModule = new EnvironmentBean();
                 environmentModule.setAlias(module.getAlias());
-                environmentModule.setModuleName(module.getName());
+                environmentModule.setModule(module);
                 environmentBeans.add(environmentModule);
                 environmentBeans.addAll(module.getEnvironments());
             }
             this.environmentBeans = environmentBeans;
-            for (EnvironmentConfigBean.ModuleBean.EnvironmentBean environmentBean : this.environmentBeans) {
-                Method getXXEnvironmentMethod = environmentSwitcherClass.getMethod("get" + environmentBean.getModuleName() + "Environment", Context.class, boolean.class);
-                String environment = (String) getXXEnvironmentMethod.invoke(environmentSwitcherClass.newInstance(), this, true);
-                environmentBean.setChecked(environment.equals(environmentBean.getUrl()));
+            for (EnvironmentBean environmentBean : this.environmentBeans) {
+                Method getXXEnvironmentBeanMethod = environmentSwitcherClass.getMethod("get" + environmentBean.getModule().getName() + "EnvironmentBean", Context.class, boolean.class);
+                EnvironmentBean environment = (EnvironmentBean) getXXEnvironmentBeanMethod.invoke(environmentSwitcherClass.newInstance(), this, true);
+                environmentBean.setChecked(environment.equals(environmentBean));
             }
             ListView recyclerView = findViewById(R.id.list_view);
             adapter = new Adapter();
@@ -90,7 +88,7 @@ public class EnvironmentSwitchActivity extends Activity {
         }
 
         @Override
-        public EnvironmentConfigBean.ModuleBean.EnvironmentBean getItem(int position) {
+        public EnvironmentBean getItem(int position) {
             return environmentBeans.get(position);
         }
 
@@ -101,13 +99,13 @@ public class EnvironmentSwitchActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final EnvironmentConfigBean.ModuleBean.EnvironmentBean environmentBean = getItem(position);
+            final EnvironmentBean environmentBean = getItem(position);
 
             if (getItemViewType(position) == TYPE_MODULE) {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.environment_switcher_item_module, parent, false);
                 TextView tvName = convertView.findViewById(R.id.tv_name);
 
-                String moduleName = environmentBean.getModuleName();
+                String moduleName = environmentBean.getModule().getName();
                 String alias = environmentBean.getAlias();
                 tvName.setText(TextUtils.isEmpty(alias) ? moduleName : alias);
             } else {
@@ -126,10 +124,10 @@ public class EnvironmentSwitchActivity extends Activity {
                     public void onClick(View v) {
                         try {
                             Class<?> environmentSwitcher = Class.forName(Constants.PACKAGE_NAME + "." + Constants.ENVIRONMENT_SWITCHER_FILE_NAME);
-                            Method method = environmentSwitcher.getMethod("set" + environmentBean.getModuleName() + "Environment", Context.class, String.class);
-                            method.invoke(environmentSwitcher.newInstance(), EnvironmentSwitchActivity.this, environmentBean.getUrl());
-                            for (EnvironmentConfigBean.ModuleBean.EnvironmentBean bean : environmentBeans) {
-                                if (bean.getModuleName().equals(environmentBean.getModuleName())) {
+                            Method method = environmentSwitcher.getMethod("set" + environmentBean.getModule().getName() + "Environment", Context.class, EnvironmentBean.class);
+                            method.invoke(environmentSwitcher.newInstance(), EnvironmentSwitchActivity.this, environmentBean);
+                            for (EnvironmentBean bean : environmentBeans) {
+                                if (bean.getModule().equals(environmentBean.getModule())) {
                                     bean.setChecked(bean.getUrl().equals(environmentBean.getUrl()));
                                 }
                             }
