@@ -196,10 +196,13 @@ public class EnvironmentSwitcherCompiler extends AbstractProcessor {
                     ))
                     .addCode(String.format(
                                 "if (!%s.equals(%s)) {\n" +
-                                   "   onEnvironmentChange(%s%s, %s, %s);\n" +
+                                   "    EnvironmentBean oldEnvironment = %s;\n" +
+                                   "    %s = %s;\n" +
+                                   "    onEnvironmentChange(%s%s, oldEnvironment, %s);\n" +
                                    "}\n", Constants.VAR_PARAMETER_ENVIRONMENT, String.format(Constants.VAR_CURRENT_XX_ENVIRONMENT, moduleName),
-                            Constants.VAR_MODULE_PREFIX, moduleUpperCaseName, String.format(Constants.VAR_CURRENT_XX_ENVIRONMENT, moduleName), Constants.VAR_PARAMETER_ENVIRONMENT))
-                    .addStatement(String.format(Constants.VAR_CURRENT_XX_ENVIRONMENT + " = " + Constants.VAR_PARAMETER_ENVIRONMENT, moduleName))
+                            String.format(Constants.VAR_CURRENT_XX_ENVIRONMENT, moduleName),
+                            String.format(Constants.VAR_CURRENT_XX_ENVIRONMENT, moduleName), Constants.VAR_PARAMETER_ENVIRONMENT,
+                            Constants.VAR_MODULE_PREFIX, moduleUpperCaseName, Constants.VAR_PARAMETER_ENVIRONMENT))
                     .build();
             environmentSwitcherClassBuilder.addMethod(setXXEnvironmentMethod);
 
