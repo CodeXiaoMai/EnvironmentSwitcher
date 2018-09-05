@@ -83,7 +83,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                 .addCode(String.format(
                             "for (Object onEnvironmentChangeListener : %s) {\n" +
                                 "   if (onEnvironmentChangeListener instanceof %s) {\n" +
-                                "       ((%s) onEnvironmentChangeListener).onEnvironmentChange(%s, %s, %s);\n" +
+                                "       ((%s) onEnvironmentChangeListener).onEnvironmentChanged(%s, %s, %s);\n" +
                                 "   }\n" +
                                 "}\n", VAR_ON_ENVIRONMENT_CHANGE_LISTENERS,
                         OnEnvironmentChangeListener.class.getSimpleName(),
@@ -102,8 +102,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(ArrayList.class);
 
-        CodeBlock.Builder staticCodeBlockBuilder = CodeBlock.builder()
-                .addStatement(String.format("%s<%s> %s", ArrayList.class.getSimpleName(), EnvironmentBean.class.getSimpleName(), VAR_ENVIRONMENTS));
+        CodeBlock.Builder staticCodeBlockBuilder = CodeBlock.builder();
 
         for (Element element : elements) {
             Module moduleAnnotation = element.getAnnotation(Module.class);
@@ -124,9 +123,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
 
             staticCodeBlockBuilder
                     .add("\n")
-                    .addStatement(String.format("%s.add(%s%s)", VAR_MODULE_LIST, VAR_MODULE_PREFIX, moduleUpperCaseName))
-                    .addStatement(String.format("%s = new %s<>()", VAR_ENVIRONMENTS, ArrayList.class.getSimpleName()))
-                    .addStatement(String.format("%s%s.setEnvironments(%s)", VAR_MODULE_PREFIX, moduleUpperCaseName, VAR_ENVIRONMENTS));
+                    .addStatement(String.format("%s.add(%s%s)", VAR_MODULE_LIST, VAR_MODULE_PREFIX, moduleUpperCaseName));
 
             FieldSpec xxModuleCurrentEnvironmentField = FieldSpec
                     .builder(EnvironmentBean.class, String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName))
@@ -231,7 +228,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                 environmentSwitcherClassBuilder.addField(environmentField);
 
                 staticCodeBlockBuilder
-                        .addStatement(String.format("%s.add(%s)", VAR_ENVIRONMENTS, String.format("%s_%s%s", moduleUpperCaseName, environmentUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX)));
+                        .addStatement(String.format("%s%s.getEnvironments().add(%s)", VAR_MODULE_PREFIX, moduleUpperCaseName, String.format("%s_%s%s", moduleUpperCaseName, environmentUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX)));
             }
 
             environmentSwitcherClassBuilder.addField(defaultXXEnvironmentFiledBuilder.build()).build();
@@ -304,7 +301,6 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
     public static final String VAR_DEFAULT_ENVIRONMENT_SUFFIX = "_ENVIRONMENT";
     public static final String VAR_CURRENT_XX_ENVIRONMENT = "sCurrent%sEnvironment";
     public static final String VAR_MODULE_LIST = "MODULE_LIST";
-    public static final String VAR_ENVIRONMENTS = "environments";
     public static final String VAR_ON_ENVIRONMENT_CHANGE_LISTENERS = "ON_ENVIRONMENT_CHANGE_LISTENERS";
 
     public static final String VAR_PARAMETER_ON_ENVIRONMENT_CHANGE_LISTENER = "onEnvironmentChangeListener";

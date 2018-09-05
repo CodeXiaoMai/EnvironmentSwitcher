@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnEnvironmentChan
     }
 
     @Override
-    public void onEnvironmentChange(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
+    public void onEnvironmentChanged(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
         Log.e(TAG, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
                 + ",切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl());
 
