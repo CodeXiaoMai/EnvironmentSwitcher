@@ -77,6 +77,8 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 2. 编写 EnvironmentConfig 文件
 
     **这个类是 Environment Switcher 依赖的核心代码，所有获取、修改环境的逻辑代码都会依赖这个类中被 `@Module` 和 `@Environment` 两个注解标记的类和属性自动生成。**
+    
+    > 注意：如果你的项目中使用了 Kotlin，请使用 Java 语言编写 EnvironmentConfig，就像在 GreenDao 中必须使用 Java 语言编写 Entity 类一样。
 
     ```
     /**
@@ -183,11 +185,19 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 
 ### 获取相应模块的环境地址：
 
+```
+String appEnvironment = EnvironmentSwitcher.getAppEnvironment(this, BuildConfig.DEBUG);
+String musicEnvironment = EnvironmentSwitcher.getMusicEnvironment(this, BuildConfig.DEBUG);
+String newsEnvironment = EnvironmentSwitcher.getNewsEnvironment(this, BuildConfig.DEBUG);
+```
+
+### 获取相应模块的环境实体类(since 1.4)：
 
 ```
-EnvironmentSwitcher.getAppEnvironment(getApplication(), BuildConfig.DEBUG);
-EnvironmentSwitcher.getMusicEnvironment(getApplication(), BuildConfig.DEBUG);
-EnvironmentSwitcher.getNewsEnvironment(getApplication(), BuildConfig.DEBUG);
+EnvironmentBean appEnvironmentBean = EnvironmentSwitcher.getAppEnvironmentBean(this, BuildConfig.DEBUG);
+EnvironmentBean musicEnvironmentBean = EnvironmentSwitcher.getMusicEnvironmentBean(this, BuildConfig.DEBUG);
+EnvironmentBean newsEnvironmentBean = EnvironmentSwitcher.getNewsEnvironmentBean(this, BuildConfig.DEBUG);
+
 ```
 
 这里需要注意的是获取相应模块的地址需要两个参数，第一个就是一个 Context 不用解释，因为 Environment Switcher 是用 SharedPreferences 进行存储数据的。第二个参数是一个 boolean 型的值，如果为 true 表示当前为 Debug 或测试等内部使用版本，此时获取到的地址是我们手动切换保存的地址；而如果为 false 表示当前为要发布给用户使用的版本，此时获取到的地址为我们在 @Environment 中指定 isRelease = true 的地址，手动切换的环境地址不再生效。
@@ -521,12 +531,20 @@ public void loge(Context context, String tag, String msg) {
 ![微信](https://upload-images.jianshu.io/upload_images/5275145-8bd8dff563306741.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/320)
 
 ## 更新日志
+
+### 2018.9.6
+
+**发布v1.5版**
+
+- [bugfix] [#3 fix bug Can't get the right environment in the callback](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/3)
+- [update] “onEnvironmentChange” 方法名改为 “onEnvironmentChange**d**”
+
 ### 2018.9.2 
 
 **发布v1.4版**
 
 - [new] EnvironmentSwitcher 中增加 ModuleBean 和 EnvironmentBean 静态常量
-- [update] OnEnvironmentChangeListener中的回调方法
+- [update] OnEnvironmentChangeListener 接口中的回调方法
 	- 1.3 之前：
 
 		```
