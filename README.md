@@ -1,3 +1,8 @@
+
+[![API](https://img.shields.io/badge/API-7%2B-brightgreen.svg)](https://android-arsenal.com/api?level=7) 
+
+### [English Document](https://github.com/CodeXiaoMai/EnvironmentSwitcher/blob/master/README-EN.md)
+
 ## Environment Switcher 介绍
 
 Environment Switcher 是一个在 Android 的开发和测试阶段，运用 Java 注解、APT、反射、混淆等原理来一键切换环境的工具。
@@ -20,9 +25,9 @@ Environment Switcher 是一个在 Android 的开发和测试阶段，运用 Java
 
 Environment Switcher 就是为了解决以上问题而设计的，它具有以下几个特点：
 
-- 只需简单几步配置即可使用
-- 安全，测试环境地址不泄漏
-- 一键切换环境，使用方便
+- 配置简单
+- 安全，不泄漏测试环境地址
+- 不用重新打包即可一键切换环境
 - 支持按模块配置与切换环境
 - 支持环境切换通知回调
 - 自动生成 `切换` `保存` `获取` 环境的逻辑代码
@@ -30,7 +35,8 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 - ......
 
 ### 为什么不用 Gradle
-看到这里你心里可能会想，这些功能我用 Gradle 就能搞定了，干嘛这么麻烦？别着急，下面我们来比较一下 Environment Switcher 和 Gradle。
+
+看到这里你可能会想，这些功能我用 Gradle 就能搞定了，为什么要用 Environment Switcher 呢？别着急，下面我们来比较一下 Environment Switcher 和 Gradle。
 
 |比较内容|Environment Switcher|Gradle  Application Id 不同| Gradle Application Id 相同 |
 |:-:|:--:|:--:|:--:|
@@ -48,31 +54,38 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 
 ### 使用方法
 
+最新版本：
+
+module|environmentswitcher|environmentswitcher-compiler|environmentswitcher-compiler-release
+:---:|:---:|:---:|:---:
+version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environmentswitcher/images/download.svg) ](https://bintray.com/xiaomai/maven/environmentswitcher/_latestVersion) | [ ![Download](https://api.bintray.com/packages/xiaomai/maven/environmentswitcher-compiler/images/download.svg) ](https://bintray.com/xiaomai/maven/environmentswitcher-compiler/_latestVersion) | [ ![Download](https://api.bintray.com/packages/xiaomai/maven/environmentswitcher-compiler-release/images/download.svg) ](https://bintray.com/xiaomai/maven/environmentswitcher-compiler-release/_latestVersion)
+
+
 1. 配置项目的 build.gradle
 
-	java 版
+	- java 版
 	
-    ```
-    dependencies {
-        ...
-        implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.4'
-        debugAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.4'
-        releaseAnnotationProcessor 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.4'
-    }
-    ```
+	    ```
+	    dependencies {
+	        ...
+	        implementation "com.xiaomai.environmentswitcher:environmentswitcher:$version"
+	        debugAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler:$version"
+	        releaseAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:$version"
+	    }
+	    ```
     
-    kotlin 版
+    - kotlin 版
 
-    ```
-    apply plugin: 'kotlin-kapt'
-    ...
-    dependencies {
-        ...
-        implementation 'com.xiaomai.environmentswitcher:environmentswitcher:1.4'
-        kaptDebug 'com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.4'
-        kaptRelease 'com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.4'
-    }
-    ```
+	    ```
+	    apply plugin: 'kotlin-kapt'
+	    ...
+	    dependencies {
+	        ...
+	        implementation "com.xiaomai.environmentswitcher:environmentswitcher:$version"
+	        kaptDebug "com.xiaomai.environmentswitcher:environmentswitcher-compiler:$version"
+	        kaptRelease "com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:$version"
+	    }
+	    ```
 
 2. 编写 EnvironmentConfig 文件
 
@@ -85,7 +98,7 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
      * 环境配置类</br>
      *
      * ⚠ 建议不要引用该类中的任何子类和成员变量，一但引用了非正式环境的属性，打包时混淆工具就不会移除该类，导致测试地址泄漏。</br>
-     * 而 Environment Switcher 在编译 Release 版本时，会自动隐藏测试环境地址。</br></br>
+     * Environment Switcher 在编译 Release 版本时，会自动隐藏测试环境地址。</br></br>
      *
      * 建议将该类中所有被 {@link Module} 和 {@link Environment} 修饰的类或成员变量用 private 修饰，</br>
      * Environment Switcher 会在编译期间自动生成相应的 Module_XX 和 Environment_XX 静态常量。</br>
@@ -135,7 +148,8 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
     ```
 
     - @Module
-被它修饰的类或接口表示一个模块，编译时会自动生成相应模块的 `getXXEnvironment()` 和 `setXXEnvironment()` 方法。一个被 `@Module` 修饰的类中，可以有 n (n>0) 个被 `@Environment` 修饰的属性，表示该模块中有 n 种环境。
+
+		被它修饰的类或接口表示一个模块，编译时会自动生成相应模块的 `getXXEnvironment()` 和 `setXXEnvironment()` 方法。一个被 `@Module` 修饰的类中，可以有 n (n>0) 个被 `@Environment` 修饰的属性，表示该模块中有 n 种环境。
 
       例如：上面的代码中，有三个类被 `@Module` 修饰，意味着有三个模块，其中 App 模块中，只有一个属性被 `@Environment` 修饰，表示该模块只有一种环境；而 Music 和 News 模块分别有 2 种和 4 种环境。
 
@@ -144,13 +158,17 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
       > 注：如果你的项目中所有模块共用同一个 Host 地址，那么只需配置一个 Module 就可以了。
 
     - @Environment
-被它修饰的属性表示一个环境，必须指定 `url` 的值，此外还有两个可选属性：`isRelease` 和 `alias`。
+
+		被它修饰的属性表示一个环境，必须指定 `url` 的值，此外还有两个可选属性：`isRelease` 和 `alias`。
+
        - isRelease 是一个 boolean 型的属性，默认为 false，当值为 true 时，它就是所在 Module 的默认环境，以及 App 正式发布时的环境。**一个 Module 中必须有且只有一个 Environment 的 isRelease 的值为 true，否则编译会失败。** 
+
+			例如：Music 模块中有两种环境分别是 online（正式）和 test （测试），因为 online 的 isRelease = true，所以它就是默认环境和App 正式发布时的环境。
+
       - alias 和 `@Module` 中的 alias 相似，用于在切换环境的UI页面展示该环境的名字，该值默认为空字符串，如果给它指定非空字符串，则环境的名字就被指定为 `alias` 的值。
 
-       例如：Music 模块中有两种环境分别是 online（正式）和 test （测试），因为 online 的 isRelease = true，所以它就是默认环境和App 正式发布时的环境。
-
       > **再次强调**：一个 Module 中必须有且只有一个 Environment 的 isRelease 的值为 true，否则编译会失败。 
+
 3. 点击菜单栏中的 “Build” -> “Rebuild Project”，等待编译完成。
 
     到这里整个配置就算完成了，接下来就可以在项目中愉快的获取相应模块的环境地址了。
@@ -161,25 +179,25 @@ Environment Switcher 就是为了解决以上问题而设计的，它具有以�
 
 例如：在“我的”页面中。
     
-    ```
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ...
-        if (!BuildConfig.DEBUG) {
-            // only show in debug
-            findViewById(R.id.bt_switch_environment).setVisibility(View.GONE);
-            return;
-        }
+```
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+	...
+	if (!BuildConfig.DEBUG) {
+		// only show in debug
+		findViewById(R.id.bt_switch_environment).setVisibility(View.GONE);
+		return;
+	}
         
-        findViewById(R.id.bt_switch_environment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // entrance of switch environment
-                EnvironmentSwitchActivity.launch(getContext());
-            }
-        });
-    }
-    ```
+	findViewById(R.id.bt_switch_environment).setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			// entrance of switch environment
+			EnvironmentSwitchActivity.launch(getContext());
+		}
+	});
+}
+```
 
 你可以使用 Environment Switcher 已经提供的 `EnvironmentSwitchActivity.launch(getContext())` 方法启动；当然你也可以通过 `startActivity(new Intent(getContext(), EnvironmentSwitchActivity.class))` 启动，看个人喜好了。
 
@@ -197,10 +215,40 @@ String newsEnvironment = EnvironmentSwitcher.getNewsEnvironment(this, BuildConfi
 EnvironmentBean appEnvironmentBean = EnvironmentSwitcher.getAppEnvironmentBean(this, BuildConfig.DEBUG);
 EnvironmentBean musicEnvironmentBean = EnvironmentSwitcher.getMusicEnvironmentBean(this, BuildConfig.DEBUG);
 EnvironmentBean newsEnvironmentBean = EnvironmentSwitcher.getNewsEnvironmentBean(this, BuildConfig.DEBUG);
-
 ```
 
 这里需要注意的是获取相应模块的地址需要两个参数，第一个就是一个 Context 不用解释，因为 Environment Switcher 是用 SharedPreferences 进行存储数据的。第二个参数是一个 boolean 型的值，如果为 true 表示当前为 Debug 或测试等内部使用版本，此时获取到的地址是我们手动切换保存的地址；而如果为 false 表示当前为要发布给用户使用的版本，此时获取到的地址为我们在 @Environment 中指定 isRelease = true 的地址，手动切换的环境地址不再生效。
+
+### 添加监听事件
+
+Environment Switcher 支持切换环境回调，你可以通过以下方法添加，需要注意的是不要忘记**在不需要监听环境切换事件时移除监听事件**。
+
+```
+public class MainActivity extends AppCompatActivity implements OnEnvironmentChangeListener{
+
+    private static final String TAG = "MainActivity";
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 添加监听事件
+        EnvironmentSwitcher.addOnEnvironmentChangeListener(this);
+    }
+
+    @Override
+    public void onEnvironmentChanged(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
+        Log.e(TAG, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
+                + ",切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 移除监听事件
+        EnvironmentSwitcher.removeOnEnvironmentChangeListener(this);
+    }
+}
+```
 
 ## Environment Switcher 原理解析
 
@@ -226,7 +274,6 @@ public class EnvironmentConfig {
 
 ```
 public final class EnvironmentSwitcher {
-    
     private static final ArrayList ON_ENVIRONMENT_CHANGE_LISTENERS = new ArrayList<OnEnvironmentChangeListener>();
 
     private static final ArrayList MODULE_LIST = new ArrayList<ModuleBean>();
@@ -242,13 +289,10 @@ public final class EnvironmentSwitcher {
     private static final EnvironmentBean DEFAULT_MUSIC_ENVIRONMENT = MUSIC_ONLINE_ENVIRONMENT;
 
     static {
-        ArrayList<EnvironmentBean> environments;
 
         MODULE_LIST.add(MODULE_MUSIC);
-        environments = new ArrayList<>();
-        MODULE_MUSIC.setEnvironments(environments);
-        environments.add(MUSIC_ONLINE_ENVIRONMENT);
-        environments.add(MUSIC_TEST_ENVIRONMENT);
+        MODULE_MUSIC.getEnvironments().add(MUSIC_ONLINE_ENVIRONMENT);
+        MODULE_MUSIC.getEnvironments().add(MUSIC_TEST_ENVIRONMENT);
     }
 
     public static void addOnEnvironmentChangeListener(OnEnvironmentChangeListener onEnvironmentChangeListener) {
@@ -266,7 +310,7 @@ public final class EnvironmentSwitcher {
     private static void onEnvironmentChange(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
         for (Object onEnvironmentChangeListener : ON_ENVIRONMENT_CHANGE_LISTENERS) {
             if (onEnvironmentChangeListener instanceof OnEnvironmentChangeListener) {
-                ((OnEnvironmentChangeListener) onEnvironmentChangeListener).onEnvironmentChange(module, oldEnvironment, newEnvironment);
+                ((OnEnvironmentChangeListener) onEnvironmentChangeListener).onEnvironmentChanged(module, oldEnvironment, newEnvironment);
             }
         }
     }
@@ -294,16 +338,17 @@ public final class EnvironmentSwitcher {
         return sCurrentMusicEnvironment;
     }
 
-    public static final void setMusicEnvironment(Context context, EnvironmentBean environment) {
+    public static final void setMusicEnvironment(Context context, EnvironmentBean newEnvironment) {
         context.getSharedPreferences(context.getPackageName() + ".environmentswitcher", android.content.Context.MODE_PRIVATE).edit()
-                .putString("musicEnvironmentUrl", environment.getUrl())
-                .putString("musicEnvironmentName", environment.getName())
-                .putString("musicEnvironmentAlias", environment.getAlias())
+                .putString("musicEnvironmentUrl", newEnvironment.getUrl())
+                .putString("musicEnvironmentName", newEnvironment.getName())
+                .putString("musicEnvironmentAlias", newEnvironment.getAlias())
                 .apply();
-        if (!environment.equals(sCurrentMusicEnvironment)) {
-            onEnvironmentChange(MODULE_MUSIC, sCurrentMusicEnvironment, environment);
+        if (!newEnvironment.equals(sCurrentMusicEnvironment)) {
+            EnvironmentBean oldEnvironment = sCurrentMusicEnvironment;
+            sCurrentMusicEnvironment = newEnvironment;
+            onEnvironmentChange(MODULE_MUSIC, oldEnvironment, newEnvironment);
         }
-        sCurrentMusicEnvironment = environment;
     }
 
     public static ArrayList getModuleList() {
@@ -319,6 +364,7 @@ public final class EnvironmentSwitcher {
 这是因为它站在四大巨人的肩膀上，这四大巨人分别是 `Java 注解` `APT` `反射` 和 `混淆`。相信大家对它们都有所耳闻，现在非常流行的 `Retrofit`、`Butter Knife` `GreenDao` 等开源库都使用了它们，这里就不做过多介绍了。
 
 ## Environment Switcher 的组成与原理
+
 打开 [Environment Switcher](https://github.com/CodeXiaoMai/EnvironmentSwitcher) 的项目目录，我们会看到 Environment Switcher 由`base` ` compiler` `compiler-release` `environmentswitcher` 和 `sample` 五个模块构成。
 
 - base：包含所有的注解 `@Moduel` 和 `@Environment` ，以及 Java Bean 类：`ModuleBean`、`EnvironmentBean` ，监听事件： `OnEnvironmentChangeListener` 和一个存储公共静态常量的类：`Constants`。其他几个模块都要依赖这个模块。
@@ -417,7 +463,7 @@ com.xiaomai.environmentswitcher.listener.OnEnvironmentChangeListener -> com.xiao
 
 ![](https://upload-images.jianshu.io/upload_images/5275145-e183f1100d70ea0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
 
-当我借助搜索工具搜索 `EnvironmentConfig` 关键字时，提示找不到该关键字，这再次证明了 EnvironmentConfig 被混淆工具移除了。
+当我借助搜索工具搜索 `EnvironmentConfig` 关键字时，提示找不到该关键字；而在同目录下的 usage.txt 文件（被移除的代码）中找到了 EnvironmentConfig 类，这再次证明了 EnvironmentConfig 被混淆工具移除了。
 
 > EnvironmentConfig 能被混淆工具移除的前提是不被其他任何类引用，这也是为什么建议将所有被 `@Module` 和 `@Environment` 标注的类或属性用 `private` 修饰的原因。这样能在编写代码的阶段从根本上杜绝因测试环境被引用导致无法在混淆时被移除进而导致泄露。
 
