@@ -53,9 +53,7 @@ public class EnvironmentSwitchActivity extends Activity {
             ArrayList<ModuleBean> modules = (ArrayList<ModuleBean>) getEnvironmentConfigMethod.invoke(environmentSwitcherClass.newInstance());
             ArrayList<EnvironmentBean> environmentBeans = new ArrayList<>();
             for (ModuleBean module : modules) {
-                EnvironmentBean environmentModule = new EnvironmentBean();
-                environmentModule.setAlias(module.getAlias());
-                environmentModule.setModule(module);
+                EnvironmentBean environmentModule = new EnvironmentBean("", "", module.getAlias(), module, false);
                 environmentBeans.add(environmentModule);
                 environmentBeans.addAll(module.getEnvironments());
             }
@@ -128,7 +126,7 @@ public class EnvironmentSwitchActivity extends Activity {
                             method.invoke(environmentSwitcher.newInstance(), EnvironmentSwitchActivity.this, environmentBean);
                             for (EnvironmentBean bean : environmentBeans) {
                                 if (bean.getModule().equals(environmentBean.getModule())) {
-                                    bean.setChecked(bean.getUrl().equals(environmentBean.getUrl()));
+                                    bean.setChecked(TextUtils.equals(bean.getUrl(), environmentBean.getUrl()));
                                 }
                             }
                             adapter.notifyDataSetChanged();

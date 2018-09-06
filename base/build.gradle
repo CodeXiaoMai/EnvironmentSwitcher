@@ -12,7 +12,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.squareup:javapoet:1.9.0'
+    api 'com.squareup:javapoet:1.9.0'
 }
 
 sourceCompatibility = "1.7"
