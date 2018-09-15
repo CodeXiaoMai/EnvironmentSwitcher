@@ -1,5 +1,5 @@
-
 [![API](https://img.shields.io/badge/API-7%2B-brightgreen.svg)](https://android-arsenal.com/api?level=7)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### [中文文档](https://github.com/CodeXiaoMai/EnvironmentSwitcher/blob/master/README_CN.md)
 
