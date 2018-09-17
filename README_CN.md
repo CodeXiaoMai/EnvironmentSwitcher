@@ -1,5 +1,5 @@
 [![API](https://img.shields.io/badge/API-7%2B-brightgreen.svg)](https://android-arsenal.com/api?level=7)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ### [English Document](https://github.com/CodeXiaoMai/EnvironmentSwitcher/blob/master/README.md)
 
@@ -337,7 +337,7 @@ public void loge(Context context, String tag, String msg) {
 **发布v1.5版**
 
 - [bugfix] [#3 fix bug Can't get the right environment in the callback](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/3)
-- [update] “onEnvironmentChange” 方法名改为 “onEnvironmentChange**<font color=#ff0000>d</font>**”
+- [update] “onEnvironmentChange” 方法名改为 “onEnvironmentChange`d`”
 
 ### 2018.9.2 
 
