@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements OnEnvironmentChan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        setTitle(getString(R.string.app_name));
+
         final HomeFragment homeFragment = new HomeFragment();
         final MusicFragment musicFragment = new MusicFragment();
         final SettingsFragment settingsFragment = new SettingsFragment();
@@ -60,19 +62,21 @@ public class MainActivity extends AppCompatActivity implements OnEnvironmentChan
 
     @Override
     public void onEnvironmentChanged(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
-        Log.e(TAG, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
-                + ",切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl());
+        Log.e(TAG, "Module=" + module.getName() + ",\nOldEnvironment=" + oldEnvironment.getName() + ",\noldUrl=" + oldEnvironment.getUrl()
+                + ",\nnewEnvironment=" + newEnvironment.getName() + ",\nnewUrl=" + newEnvironment.getUrl());
 
-        Toast.makeText(this, module.getName() + "由" + oldEnvironment.getName() + "环境，Url=" + oldEnvironment.getUrl()
-                + "切换为" + newEnvironment.getName() + "环境，Url=" + newEnvironment.getUrl(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Module=" + module.getName() + ",\nOldEnvironment=" + oldEnvironment.getName() + ",\noldUrl=" + oldEnvironment.getUrl()
+                + ",\nnewEnvironment=" + newEnvironment.getName() + ",\nnewUrl=" + newEnvironment.getUrl(), Toast.LENGTH_SHORT).show();
 
         if (module.equals(EnvironmentSwitcher.MODULE_MUSIC)) {
             // 如果环境切换后重新请求的接口需要 token，可以通过 postDelay 在延迟一定时间后再请求
+            // if the request need token, you can send in postDelay.
             long delayTime = 1500;
             findViewById(R.id.frame_layout).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     // 发送需要 token 参数的接口请求
+                    // send the request need token
                     Log.e(TAG, "run: send request");
 
                     Toast.makeText(MainActivity.this, "send request", Toast.LENGTH_SHORT).show();

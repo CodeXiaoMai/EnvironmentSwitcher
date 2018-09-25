@@ -25,18 +25,18 @@
             android:id="@+id/radio_home"
             style="@style/MyRadioButton"
             android:layout_height="match_parent"
-            android:text="首页" />
+            android:text="@string/home" />
 
         <RadioButton
             android:id="@+id/radio_music"
             style="@style/MyRadioButton"
             android:layout_height="match_parent"
-            android:text="音乐" />
+            android:text="@string/music" />
 
         <RadioButton
             android:id="@+id/radio_settings"
             style="@style/MyRadioButton"
             android:layout_height="match_parent"
-            android:text="设置" />
+            android:text="@string/settings" />
     </RadioGroup>
 </LinearLayout>

@@ -28,25 +28,25 @@
                 style="@style/MyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="登录" />
+                android:text="@string/login" />
 
             <TextView
                 style="@style/MyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="我的快递" />
+                android:text="@string/my_express" />
 
             <TextView
                 style="@style/MyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="我的订单" />
+                android:text="@string/my_order" />
 
             <TextView
                 style="@style/MyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="我的消息" />
+                android:text="@string/inbox" />
 
             <TextView
                 android:id="@+id/bt_switch_environment"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/environment_switcher_bg_selector"
-                android:text="点击切换环境" />
+                android:text="@string/click_switch_environment" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

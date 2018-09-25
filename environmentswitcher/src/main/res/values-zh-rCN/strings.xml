@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="environment_switcher_app_name">view</string>
-    <string name="switch_environment">SwitchEnvironment</string>
+    <string name="switch_environment">切换环境</string>
 </resources>

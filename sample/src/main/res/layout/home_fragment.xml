@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:text="加载失败，下拉重新加载"
+                android:text="@string/load_fail_pull_and_reload"
                 android:visibility="gone" />
         </FrameLayout>
 

@@ -1,3 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EnvironmentSwitcher</string>
+    <string name="loading">loading&#8230;</string>
+    <string name="load_fail_click_reload">Load fail, click to reload!</string>
+    <string name="login">Login</string>
+    <string name="my_express">My Express</string>
+    <string name="my_order">My Order</string>
+    <string name="inbox">InBox</string>
+    <string name="click_switch_environment">ClickSwitchEnvironment</string>
+    <string name="home">Home</string>
+    <string name="music">Music</string>
+    <string name="settings">Settings</string>
+    <string name="load_fail_pull_and_reload">Load fail, pull and reload!</string>
 </resources>

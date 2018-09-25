@@ -59,7 +59,7 @@ public class MusicFragment extends Fragment {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.d(TAG, "onSubscribe: ");
-                        textView.setText("加载中...");
+                        textView.setText(R.string.loading);
                     }
 
                     @Override
@@ -71,7 +71,7 @@ public class MusicFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: ", e);
-                        textView.setText("加载失败，点击重新加载");
+                        textView.setText(R.string.load_fail_click_reload);
                     }
 
                     @Override

@@ -338,7 +338,7 @@ For more information, please refer to the Sample Project, three has a detailed i
 		EnvironmentSwitcher.addOnEnvironmentChangeListener(new OnEnvironmentChangeListener() {
 			@Override
 			public void onEnvironmentChange(ModuleBean module, EnvironmentBean oldEnvironment, EnvironmentBean newEnvironment) {
-				Log.e(TAG, module.getName() + "oleEnvironment=" + oldEnvironment.getName() + "，oldUrl=" + oldEnvironment.getUrl() + ",newNevironment=" + newEnvironment.getName() + "，newUrl=" + newEnvironment.getUrl());
+				Log.e(TAG, module.getName() + "oldEnvironment=" + oldEnvironment.getName() + "，oldUrl=" + oldEnvironment.getUrl() + ",newNevironment=" + newEnvironment.getName() + "，newUrl=" + newEnvironment.getUrl());
 			}
 		});
 		```
