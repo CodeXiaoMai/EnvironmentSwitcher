@@ -95,7 +95,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * The entire app environment
          */
         @Module
-        class App {
+        private class App {
             @Environment(url = "https://gank.io/api/", isRelease = true)
             private String online;
         }
@@ -104,7 +104,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * Special module Music environment
          */
         @Module
-        class Music {
+        private class Music {
             @Environment(url = "https://www.codexiaomai.top/api/", isRelease = true)
             private String online;
     
@@ -116,7 +116,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * Special module News environment
          */
         @Module
-        class News {
+        private class News {
             @Environment(url = "http://news/release/", isRelease = true)
             private String release;
     

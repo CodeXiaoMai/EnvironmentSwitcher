@@ -110,7 +110,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * 整个 App 的环境
          */
         @Module
-        class App {
+        private class App {
             @Environment(url = "https://gank.io/api/", isRelease = true, alias = "正式")
             private String online;
         }
@@ -119,7 +119,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * 特殊模块 Music 的环境
          */
         @Module(alias = "音乐")
-        class Music {
+        private class Music {
             @Environment(url = "https://www.codexiaomai.top/api/", isRelease = true, alias = "正式")
             private String online;
     
@@ -131,7 +131,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
          * 特殊模块 News 的环境
          */
         @Module(alias = "新闻")
-        class News {
+        private class News {
             @Environment(url = "http://news/release/", isRelease = true, alias = "正式")
             private String release;
     
