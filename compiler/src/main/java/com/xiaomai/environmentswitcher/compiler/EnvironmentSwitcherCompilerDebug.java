@@ -158,9 +158,11 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                                    "    android.content.SharedPreferences sharedPreferences = %s.getSharedPreferences(%s.getPackageName() + \".%s\", %s);\n" +
                                    "    String url = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getUrl());\n" +
                                    "    String environmentName = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getName());\n" +
-                                   "    String appAlias = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getAlias());\n" +
+                                   "    String alias = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getAlias());\n" +
                                    "    for (EnvironmentBean environmentBean : MODULE_%s.getEnvironments()) {\n" +
-                                   "        if (android.text.TextUtils.equals(environmentBean.getUrl(), url)) {\n" +
+                                   "        if (android.text.TextUtils.equals(environmentBean.getUrl(), url)\n" +
+                                   "                && android.text.TextUtils.equals(environmentBean.getName(), environmentName)\n" +
+                                   "                && android.text.TextUtils.equals(environmentBean.getAlias(), alias)) {\n" +
                                    "            %s = environmentBean;\n" +
                                    "            break;\n" +
                                    "        }\n" +

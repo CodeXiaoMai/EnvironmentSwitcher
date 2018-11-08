@@ -58,14 +58,21 @@ public class EnvironmentSwitchActivity extends Activity {
                 environmentBeans.addAll(module.getEnvironments());
             }
             this.environmentBeans = environmentBeans;
+
+            String currentModuleName = "";
+            EnvironmentBean xxModuleCurrentEnvironment = null;
+
             for (EnvironmentBean environmentBean : this.environmentBeans) {
-                Method getXXEnvironmentBeanMethod = environmentSwitcherClass.getMethod("get" + environmentBean.getModule().getName() + "EnvironmentBean", Context.class, boolean.class);
-                EnvironmentBean environment = (EnvironmentBean) getXXEnvironmentBeanMethod.invoke(environmentSwitcherClass.newInstance(), this, true);
-                environmentBean.setChecked(environment.equals(environmentBean));
+                if (!TextUtils.equals(environmentBean.getModule().getName(), currentModuleName) || xxModuleCurrentEnvironment == null) {
+                    currentModuleName = environmentBean.getModule().getName();
+                    Method getXXEnvironmentBeanMethod = environmentSwitcherClass.getMethod("get" + environmentBean.getModule().getName() + "EnvironmentBean", Context.class, boolean.class);
+                    xxModuleCurrentEnvironment = (EnvironmentBean) getXXEnvironmentBeanMethod.invoke(environmentSwitcherClass.newInstance(), this, true);
+                }
+                environmentBean.setChecked(xxModuleCurrentEnvironment.equals(environmentBean));
             }
-            ListView recyclerView = findViewById(R.id.list_view);
+            ListView listView = findViewById(R.id.list_view);
             adapter = new Adapter();
-            recyclerView.setAdapter(adapter);
+            listView.setAdapter(adapter);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -126,7 +133,7 @@ public class EnvironmentSwitchActivity extends Activity {
                             method.invoke(environmentSwitcher.newInstance(), EnvironmentSwitchActivity.this, environmentBean);
                             for (EnvironmentBean bean : environmentBeans) {
                                 if (bean.getModule().equals(environmentBean.getModule())) {
-                                    bean.setChecked(TextUtils.equals(bean.getUrl(), environmentBean.getUrl()));
+                                    bean.setChecked(bean.equals(environmentBean));
                                 }
                             }
                             adapter.notifyDataSetChanged();
