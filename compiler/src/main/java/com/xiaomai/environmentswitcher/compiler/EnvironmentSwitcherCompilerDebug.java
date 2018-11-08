@@ -167,6 +167,9 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                                    "            break;\n" +
                                    "        }\n" +
                                    "    }\n" +
+                                   "    if (%s == null) {\n" +
+                                   "        %s = %s%s%s;\n" +
+                                   "    }\n" +
                                     "}\n",
                             String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
                             VAR_CONTEXT, VAR_CONTEXT, Constants.ENVIRONMENT_SWITCHER_FILE_NAME.toLowerCase(), MODE_PRIVATE,
@@ -174,7 +177,10 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_NAME_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_ALIAS_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
                             moduleUpperCaseName,
-                            String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName)))
+                            String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
+                            String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
+                            String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
+                            VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX))
                     .addStatement(String.format("return " + VAR_CURRENT_XX_ENVIRONMENT, moduleName))
                     .build();
             environmentSwitcherClassBuilder.addMethod(getXXEnvironmentBeanMethod);
