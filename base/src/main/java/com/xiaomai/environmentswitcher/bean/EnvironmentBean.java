@@ -101,7 +101,8 @@ public class EnvironmentBean implements Serializable {
                 "name='" + name + '\'' +
                 ", alias='" + alias + '\'' +
                 ", url='" + url + '\'' +
-                ", module=" + module +
+                ", moduleName=" + module.getName() +
+                ", moduleAlias=" + module.getAlias() +
                 ", checked=" + checked +
                 '}';
     }

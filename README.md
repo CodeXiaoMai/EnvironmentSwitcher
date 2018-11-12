@@ -307,6 +307,16 @@ For more information, please refer to the Sample Project, three has a detailed i
 
 ## Update log
 
+### 2018.11.9
+
+**release v1.5.2**
+
+- [bugfix] [#8](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/8)
+
+**release v1.5.1**
+
+- [bugfix] [#7](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/7)
+
 ### 2018.9.6
 
 **release v1.5**

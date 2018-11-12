@@ -332,6 +332,16 @@ public void loge(Context context, String tag, String msg) {
 
 ## 更新日志
 
+### 2018.11.9
+
+**发布v1.5.2版**
+
+- [bugfix] [#8 当前正在使用的环境地址发生变化时，获取环境时会发生NPE](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/8)
+
+**发布v1.5.1版**
+
+- [bugfix] [#7 当环境的URL相同时，在切换环境页面选择的时候，会认为是同一个实体，一起被选中](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/7)
+
 ### 2018.9.6
 
 **发布v1.5版**
