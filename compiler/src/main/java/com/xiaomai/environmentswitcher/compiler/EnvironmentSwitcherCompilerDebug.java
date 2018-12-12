@@ -195,7 +195,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                                    ".putString(\"%s%s%s\", %s.getUrl())\n" +
                                    ".putString(\"%s%s%s\", %s.getName())\n" +
                                    ".putString(\"%s%s%s\", %s.getAlias())\n" +
-                                   ".apply()",
+                                   ".commit()",
                             VAR_CONTEXT, VAR_CONTEXT, Constants.ENVIRONMENT_SWITCHER_FILE_NAME.toLowerCase(), MODE_PRIVATE,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_URL_SUFFIX, VAR_PARAMETER_NEW_ENVIRONMENT,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_NAME_SUFFIX, VAR_PARAMETER_NEW_ENVIRONMENT,
