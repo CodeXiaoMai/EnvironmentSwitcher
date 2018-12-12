@@ -332,26 +332,24 @@ public void loge(Context context, String tag, String msg) {
 
 ## 更新日志
 
-### 2018.11.9
+### 2018.12.12 发布v1.5.3
 
-**发布v1.5.2版**
+- [bugfix] [#12 将 SharedPreferences 的写入方法由 apply 替换为 commit](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/12)
+
+### 2018.11.9 发布v1.5.2版
 
 - [bugfix] [#8 当前正在使用的环境地址发生变化时，获取环境时会发生NPE](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/8)
 
-**发布v1.5.1版**
+### 2018.11.9 发布v1.5.1版
 
 - [bugfix] [#7 当环境的URL相同时，在切换环境页面选择的时候，会认为是同一个实体，一起被选中](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/7)
 
-### 2018.9.6
-
-**发布v1.5版**
+### 2018.9.6 发布v1.5版
 
 - [bugfix] [#3 fix bug Can't get the right environment in the callback](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/3)
 - [update] “onEnvironmentChange” 方法名改为 “onEnvironmentChange`d`”
 
-### 2018.9.2 
-
-**发布v1.4版**
+### 2018.9.2 发布v1.4版
 
 - [new] EnvironmentSwitcher 中增加 ModuleBean 和 EnvironmentBean 静态常量
 - [update] OnEnvironmentChangeListener 接口中的回调方法

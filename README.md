@@ -307,27 +307,25 @@ For more information, please refer to the Sample Project, three has a detailed i
 
 ## Update log
 
-### 2018.11.9
+### 2018.12.12 release v1.5.3
 
-**release v1.5.2**
+- [bugfix] [#12 将 SharedPreferences 的写入方法由 apply 替换为 commit](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/12)
+
+### 2018.11.9 release v1.5.2
 
 - [bugfix] [#8](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/8)
 
-**release v1.5.1**
+### 2018.11.9 release v1.5.1
 
 - [bugfix] [#7](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/7)
 
-### 2018.9.6
-
-**release v1.5**
+### 2018.9.6 release v1.5
 
 - [bugfix] [#3 fix bug Can't get the right environment in the callback](https://github.com/CodeXiaoMai/EnvironmentSwitcher/issues/3)
 - [update] The "onEnvironmentChange" method name is changed to "onEnvironmentChange`d`
 "
 
-### 2018.9.2 
-
-**release v1.4**
+### 2018.9.2 release v1.4
 
 - [new] Add ModuleBean and EnvironmentBean static constants in EnvironmentSwitcher
 - [update] Callback method in the OnEnvironmentChangeListener interface
