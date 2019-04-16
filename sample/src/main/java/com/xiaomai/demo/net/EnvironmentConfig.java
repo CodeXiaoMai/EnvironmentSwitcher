@@ -33,7 +33,7 @@ public class EnvironmentConfig {
         @Environment(url = "https://www.codexiaomai.top/api/", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "http://test.codexiaomai.top/api/", alias = "测试")
+        @Environment(url = "http://test.codexiaomai.top/api/", alias = "测试", isChecked = true)
         private String test;
     }
 
@@ -48,7 +48,7 @@ public class EnvironmentConfig {
         @Environment(url = "http://news/test/", alias = "测试")
         private String test;
 
-        @Environment(url = "http://news/test1/")
+        @Environment(url = "http://news/test1/", isChecked = true)
         private String test1;
 
         @Environment(url = "http://news/sandbox/", alias = "沙箱")
@@ -63,7 +63,7 @@ public class EnvironmentConfig {
         @Environment(url = "http://www.share.com", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "http://test.share.com", alias = "测试")
+        @Environment(url = "http://test.share.com", alias = "测试", isChecked = true)
         private String test;
     }
 }

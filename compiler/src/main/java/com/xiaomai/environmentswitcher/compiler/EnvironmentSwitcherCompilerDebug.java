@@ -1,6 +1,7 @@
 package com.xiaomai.environmentswitcher.compiler;
 
 import com.google.auto.service.AutoService;
+
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -154,28 +155,38 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                             VAR_PARAMETER_IS_DEBUG,
                             VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX))
                     .addCode(String.format(
-                                "if (%s == null) {\n" +
-                                   "    android.content.SharedPreferences sharedPreferences = %s.getSharedPreferences(%s.getPackageName() + \".%s\", %s);\n" +
-                                   "    String url = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getUrl());\n" +
-                                   "    String environmentName = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getName());\n" +
-                                   "    String alias = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getAlias());\n" +
-                                   "    for (EnvironmentBean environmentBean : MODULE_%s.getEnvironments()) {\n" +
-                                   "        if (android.text.TextUtils.equals(environmentBean.getUrl(), url)\n" +
-                                   "                && android.text.TextUtils.equals(environmentBean.getName(), environmentName)\n" +
-                                   "                && android.text.TextUtils.equals(environmentBean.getAlias(), alias)) {\n" +
-                                   "            %s = environmentBean;\n" +
-                                   "            break;\n" +
-                                   "        }\n" +
-                                   "    }\n" +
-                                   "    if (%s == null) {\n" +
-                                   "        %s = %s%s%s;\n" +
-                                   "    }\n" +
+                            "if (%s == null) {\n" +
+                                    "    android.content.SharedPreferences sharedPreferences = %s.getSharedPreferences(%s.getPackageName() + \".%s\", %s);\n" +
+                                    "    String url = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getUrl());\n" +
+                                    "    String environmentName = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getName());\n" +
+                                    "    String alias = sharedPreferences.getString(\"%s%s%s\", %s%s%s.getAlias());\n" +
+                                    "    boolean checked = sharedPreferences.getBoolean(\"%s%s%s\", %s%s%s.isChecked());\n" +
+                                    "    for (EnvironmentBean environmentBean : MODULE_%s.getEnvironments()) {\n" +
+                                    "        if (android.text.TextUtils.equals(environmentBean.getUrl(), url)\n" +
+                                    "                && android.text.TextUtils.equals(environmentBean.getName(), environmentName)\n" +
+                                    "                && android.text.TextUtils.equals(environmentBean.getAlias(), alias)) {\n" +
+                                    "            %s = environmentBean;\n" +
+                                    "            break;\n" +
+                                    "        }\n" +
+                                    "    }\n" +
+                                    "    for (EnvironmentBean environmentBean : MODULE_%s.getEnvironments()) { \n" +
+                                    "        if (environmentBean.isChecked()) { \n" +
+                                    "           %s = environmentBean; \n" +
+                                    "           break; \n" +
+                                    "        } \n" +
+                                    "    } \n"+
+                                    "    if (%s == null) {\n" +
+                                    "        %s = %s%s%s;\n" +
+                                    "    }\n" +
                                     "}\n",
                             String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
                             VAR_CONTEXT, VAR_CONTEXT, Constants.ENVIRONMENT_SWITCHER_FILE_NAME.toLowerCase(), MODE_PRIVATE,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_URL_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_NAME_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
                             moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_ALIAS_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
+                            moduleLowerCaseName, ENVIRONMENT, VAR_ENVIRONMENT_CHCEKED_SUFFIX, VAR_DEFAULT_ENVIRONMENT_PREFIX, moduleUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX,
+                            moduleUpperCaseName,
+                            String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
                             moduleUpperCaseName,
                             String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
                             String.format(VAR_CURRENT_XX_ENVIRONMENT, moduleName),
@@ -229,9 +240,10 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                 String environmentUpperCaseName = environmentName.toUpperCase();
                 String url = environmentAnnotation.url();
                 String alias = environmentAnnotation.alias();
+                boolean checked = environmentAnnotation.isChecked();
 
                 FieldSpec environmentField = generateEnvironmentField(environmentAnnotation, defaultXXEnvironmentFiledBuilder,
-                        moduleUpperCaseName, environmentName, environmentUpperCaseName, url, alias);
+                        moduleUpperCaseName, environmentName, environmentUpperCaseName, url, alias, checked);
 
                 environmentSwitcherClassBuilder.addField(environmentField);
 
@@ -264,7 +276,8 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                                                  String environmentName,
                                                  String environmentUpperCaseName,
                                                  String url,
-                                                 String alias) {
+                                                 String alias,
+                                                 boolean checked) {
         if (environmentAnnotation.isRelease()) {
             defaultXXEnvironmentFiledBuilder.initializer(String.format("%s_%s%s", moduleUpperCaseName, environmentUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX));
         }
@@ -273,8 +286,8 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
                 .builder(EnvironmentBean.class,
                         String.format("%s_%s%s", moduleUpperCaseName, environmentUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX),
                         Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .initializer(String.format("new %s(\"%s\", \"%s\", \"%s\", %s%s)",
-                        EnvironmentBean.class.getSimpleName(), environmentName, url, alias, VAR_MODULE_PREFIX, moduleUpperCaseName))
+                .initializer(String.format("new %s(\"%s\", \"%s\", \"%s\", %s%s,%b)",
+                        EnvironmentBean.class.getSimpleName(), environmentName, url, alias, VAR_MODULE_PREFIX, moduleUpperCaseName, checked))
                 .build();
     }
 
@@ -288,34 +301,35 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
         return SourceVersion.RELEASE_7;
     }
 
-    public static final String ENVIRONMENT = "Environment";
+    private static final String ENVIRONMENT = "Environment";
 
-    public static final String METHOD_NAME_GET_XX_ENVIRONMENT = "get%sEnvironment";
-    public static final String METHOD_NAME_GET_XX_ENVIRONMENT_BEAN = "get%sEnvironmentBean";
-    public static final String METHOD_NAME_SET_XX_ENVIRONMENT = "set%sEnvironment";
-    public static final String METHOD_NAME_ADD_ON_ENVIRONMENT_CHANGE_LISTENER = "addOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_REMOVE_ON_ENVIRONMENT_CHANGE_LISTENER = "removeOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_REMOVE_ALL_ON_ENVIRONMENT_CHANGE_LISTENER = "removeAllOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_ON_ENVIRONMENT_CHANGE = "onEnvironmentChange";
+    private static final String METHOD_NAME_GET_XX_ENVIRONMENT = "get%sEnvironment";
+    private static final String METHOD_NAME_GET_XX_ENVIRONMENT_BEAN = "get%sEnvironmentBean";
+    private static final String METHOD_NAME_SET_XX_ENVIRONMENT = "set%sEnvironment";
+    private static final String METHOD_NAME_ADD_ON_ENVIRONMENT_CHANGE_LISTENER = "addOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_REMOVE_ON_ENVIRONMENT_CHANGE_LISTENER = "removeOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_REMOVE_ALL_ON_ENVIRONMENT_CHANGE_LISTENER = "removeAllOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_ON_ENVIRONMENT_CHANGE = "onEnvironmentChange";
 
-    public static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
+    private static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
 
-    public static final String VAR_CONTEXT = "context";
-    public static final String VAR_ENVIRONMENT_URL_SUFFIX = "Url";
-    public static final String VAR_ENVIRONMENT_NAME_SUFFIX = "Name";
-    public static final String VAR_ENVIRONMENT_ALIAS_SUFFIX = "Alias";
-    public static final String VAR_MODULE_PREFIX = "MODULE_";
-    public static final String VAR_DEFAULT_ENVIRONMENT_PREFIX = "DEFAULT_";
-    public static final String VAR_DEFAULT_ENVIRONMENT_SUFFIX = "_ENVIRONMENT";
-    public static final String VAR_CURRENT_XX_ENVIRONMENT = "sCurrent%sEnvironment";
-    public static final String VAR_MODULE_LIST = "MODULE_LIST";
-    public static final String VAR_ON_ENVIRONMENT_CHANGE_LISTENERS = "ON_ENVIRONMENT_CHANGE_LISTENERS";
+    private static final String VAR_CONTEXT = "context";
+    private static final String VAR_ENVIRONMENT_URL_SUFFIX = "Url";
+    private static final String VAR_ENVIRONMENT_NAME_SUFFIX = "Name";
+    private static final String VAR_ENVIRONMENT_ALIAS_SUFFIX = "Alias";
+    private static final String VAR_ENVIRONMENT_CHCEKED_SUFFIX = "Checked";
+    static final String VAR_MODULE_PREFIX = "MODULE_";
+    private static final String VAR_DEFAULT_ENVIRONMENT_PREFIX = "DEFAULT_";
+    static final String VAR_DEFAULT_ENVIRONMENT_SUFFIX = "_ENVIRONMENT";
+    private static final String VAR_CURRENT_XX_ENVIRONMENT = "sCurrent%sEnvironment";
+    private static final String VAR_MODULE_LIST = "MODULE_LIST";
+    private static final String VAR_ON_ENVIRONMENT_CHANGE_LISTENERS = "ON_ENVIRONMENT_CHANGE_LISTENERS";
 
-    public static final String VAR_PARAMETER_ON_ENVIRONMENT_CHANGE_LISTENER = "onEnvironmentChangeListener";
-    public static final String VAR_PARAMETER_IS_DEBUG = "isDebug";
-    public static final String VAR_PARAMETER_MODULE = "module";
-    public static final String VAR_PARAMETER_OLD_ENVIRONMENT = "oldEnvironment";
-    public static final String VAR_PARAMETER_NEW_ENVIRONMENT = "newEnvironment";
+    private static final String VAR_PARAMETER_ON_ENVIRONMENT_CHANGE_LISTENER = "onEnvironmentChangeListener";
+    private static final String VAR_PARAMETER_IS_DEBUG = "isDebug";
+    private static final String VAR_PARAMETER_MODULE = "module";
+    private static final String VAR_PARAMETER_OLD_ENVIRONMENT = "oldEnvironment";
+    private static final String VAR_PARAMETER_NEW_ENVIRONMENT = "newEnvironment";
 
-    public static final TypeName CONTEXT_TYPE_NAME = ClassName.get("android.content", "Context");
+    private static final TypeName CONTEXT_TYPE_NAME = ClassName.get("android.content", "Context");
 }

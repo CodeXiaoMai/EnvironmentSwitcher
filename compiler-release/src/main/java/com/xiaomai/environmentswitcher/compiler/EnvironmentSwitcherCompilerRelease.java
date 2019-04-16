@@ -1,6 +1,7 @@
 package com.xiaomai.environmentswitcher.compiler;
 
 import com.google.auto.service.AutoService;
+
 import com.squareup.javapoet.FieldSpec;
 import com.xiaomai.environmentswitcher.annotation.Environment;
 import com.xiaomai.environmentswitcher.bean.EnvironmentBean;
@@ -18,16 +19,17 @@ public class EnvironmentSwitcherCompilerRelease extends EnvironmentSwitcherCompi
                                                  String environmentName,
                                                  String environmentUpperCaseName,
                                                  String url,
-                                                 String alias) {
+                                                 String alias,
+                                                 boolean checked) {
         if (environmentAnnotation.isRelease()) {
-            return super.generateEnvironmentField(environmentAnnotation, defaultXXEnvironmentFiledBuilder, moduleUpperCaseName, environmentName, environmentUpperCaseName, url, alias);
+            return super.generateEnvironmentField(environmentAnnotation, defaultXXEnvironmentFiledBuilder, moduleUpperCaseName, environmentName, environmentUpperCaseName, url, alias, true);
         }
 
         return FieldSpec.builder(EnvironmentBean.class,
                 String.format("%s_%s%s", moduleUpperCaseName, environmentUpperCaseName, VAR_DEFAULT_ENVIRONMENT_SUFFIX),
                 Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .initializer(String.format("new %s(\"%s\", \"%s\", \"%s\", %s%s)",
-                        EnvironmentBean.class.getSimpleName(), environmentName, "", alias, VAR_MODULE_PREFIX, moduleUpperCaseName))
+                .initializer(String.format("new %s(\"%s\", \"%s\", \"%s\", %s%s,%b)",
+                        EnvironmentBean.class.getSimpleName(), environmentName, "", alias, VAR_MODULE_PREFIX, moduleUpperCaseName, checked))
                 .build();
     }
 }

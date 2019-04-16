@@ -40,4 +40,13 @@ public @interface Environment {
      * Used to specify the current alias for {@link Environment}
      */
     String alias() default "";
+
+    /**
+     * 第一次初始化时，是否选中，默认false，一个module中只有第一个可以被checked
+     *
+     * 只作用于{@link #isRelease()}为false的情况
+     *
+     * @return true被选中；否则不选中
+     */
+    boolean isChecked() default false;
 }

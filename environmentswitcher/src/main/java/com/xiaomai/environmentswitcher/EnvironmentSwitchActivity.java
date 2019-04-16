@@ -48,6 +48,7 @@ public class EnvironmentSwitchActivity extends Activity {
         });
 
         try {
+            // module
             Class<?> environmentSwitcherClass = Class.forName(Constants.PACKAGE_NAME + "." + Constants.ENVIRONMENT_SWITCHER_FILE_NAME);
             Method getEnvironmentConfigMethod = environmentSwitcherClass.getMethod(Constants.METHOD_NAME_GET_MODULE_LIST);
             ArrayList<ModuleBean> modules = (ArrayList<ModuleBean>) getEnvironmentConfigMethod.invoke(environmentSwitcherClass.newInstance());
