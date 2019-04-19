@@ -1,14 +1,23 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.novoda.bintray-release'
-//
-//publish {
-//    userOrg = user_org
-//    groupId = group_id
-//    artifactId = artifactId_environment_switcher
-//    publishVersion = publishVersion_environment_switcher
-//    desc = ''
-//    website = web_site
-//}
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = user_org
+    groupId = group_id
+    artifactId = artifactId_environment_switcher
+    publishVersion = publishVersion_environment_switcher
+    desc = ''
+    website = web_site
+
+    Properties keyProps = new Properties()
+    keyProps.load(new FileInputStream(file(rootDir.getAbsolutePath() + '/local.properties')))
+
+    println keyProps["bintrayUser"]
+    println keyProps["bintrayKey"]
+
+    bintrayUser = keyProps["bintrayUser"]
+    bintrayKey = keyProps["bintrayKey"]
+}
 
 android {
     compileSdkVersion compile_version

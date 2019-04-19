@@ -3,12 +3,13 @@
 buildscript {
 
     repositories {
-        google()
+        maven { url 'https://dl.bintray.com/hacket/maven' }
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.novoda:bintray-release:0.9'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -16,9 +17,14 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        maven { url 'https://dl.bintray.com/hacket/maven' }
         jcenter()
-        maven { url 'https://dl.bintray.com/xiaomai/maven/' }
+        google()
+    }
+
+    tasks.withType(Javadoc) { // 新增
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
     }
 }
 
@@ -46,14 +52,14 @@ ext {
     artifactId_compiler_release = 'environmentswitcher-compiler-release'
     artifactId_environment_switcher = 'environmentswitcher'
 
-    publishVersion_base = '1.5.2'
-    publishVersion_compiler = '1.5.3'
+    publishVersion_base = '1.5.4'
+    publishVersion_compiler = '1.5.4'
     publishVersion_compiler_release = publishVersion_compiler
     publishVersion_environment_switcher = publishVersion_base
 
-    user_org = "xiaomai"
-    user_emial = "xiaomai949804781@gmail.com"
-    group_id = "com.xiaomai.environmentswitcher"
-    web_site = "https://github.com/CodeXiaoMai/EnvironmentSwitcher"
-    gitUrl = "https://github.com/CodeXiaoMai/EnvironmentSwitcher.git"
+    user_org = "hacket"
+    user_emial = "shengfanzeng@gmail.com"
+    group_id = "me.hacket.environmentswitcher"
+    web_site = "https://github.com/hacket/EnvironmentSwitcher"
+    gitUrl = "https://github.com/hacket/EnvironmentSwitcher.git"
 }
