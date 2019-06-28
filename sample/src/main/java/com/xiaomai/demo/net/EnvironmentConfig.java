@@ -21,7 +21,7 @@ public class EnvironmentConfig {
      */
     @Module
     private class App {
-        @Environment(url = "https://gank.io/api/", isRelease = true, alias = "正式")
+        @Environment(value = "https://gank.io/api/", isRelease = true, alias = "正式")
         private String online;
     }
 
@@ -30,10 +30,10 @@ public class EnvironmentConfig {
      */
     @Module(alias = "音乐")
     private class Music {
-        @Environment(url = "https://www.codexiaomai.top/api/", isRelease = true, alias = "正式")
+        @Environment(value = "https://www.codexiaomai.top/api/", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "http://test.codexiaomai.top/api/", alias = "测试")
+        @Environment(value = "http://test.codexiaomai.top/api/", isDebug = true, alias = "测试")
         private String test;
     }
 
@@ -42,16 +42,16 @@ public class EnvironmentConfig {
      */
     @Module(alias = "新闻")
     private class News {
-        @Environment(url = "http://news/release/", isRelease = true, alias = "正式")
-        private String release;
+        @Environment(value = "http://news/release/", isRelease = true, alias = "正式")
+        private String online;
 
-        @Environment(url = "http://news/test/", alias = "测试")
+        @Environment(value = "http://news/test/", isDebug = true, alias = "测试")
         private String test;
 
-        @Environment(url = "http://news/test1/")
+        @Environment(value = "http://news/test1/")
         private String test1;
 
-        @Environment(url = "http://news/sandbox/", alias = "沙箱")
+        @Environment(value = "http://news/sandbox/", alias = "沙箱")
         private String sandbox;
     }
 
@@ -60,10 +60,10 @@ public class EnvironmentConfig {
      */
     @Module(alias = "分享")
     private class Share {
-        @Environment(url = "http://www.share.com", isRelease = true, alias = "正式")
+        @Environment(value = "http://www.share.com", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "http://test.share.com", alias = "测试")
+        @Environment(value = "http://test.share.com", alias = "测试")
         private String test;
     }
 }

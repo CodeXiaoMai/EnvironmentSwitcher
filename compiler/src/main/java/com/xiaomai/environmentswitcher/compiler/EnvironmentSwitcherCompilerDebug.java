@@ -227,7 +227,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
 
                 String environmentName = member.getSimpleName().toString();
                 String environmentUpperCaseName = environmentName.toUpperCase();
-                String url = environmentAnnotation.url();
+                String url = environmentAnnotation.value();
                 String alias = environmentAnnotation.alias();
 
                 FieldSpec environmentField = generateEnvironmentField(environmentAnnotation, defaultXXEnvironmentFiledBuilder,
@@ -288,34 +288,34 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
         return SourceVersion.RELEASE_7;
     }
 
-    public static final String ENVIRONMENT = "Environment";
+    private static final String ENVIRONMENT = "Environment";
 
-    public static final String METHOD_NAME_GET_XX_ENVIRONMENT = "get%sEnvironment";
-    public static final String METHOD_NAME_GET_XX_ENVIRONMENT_BEAN = "get%sEnvironmentBean";
-    public static final String METHOD_NAME_SET_XX_ENVIRONMENT = "set%sEnvironment";
-    public static final String METHOD_NAME_ADD_ON_ENVIRONMENT_CHANGE_LISTENER = "addOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_REMOVE_ON_ENVIRONMENT_CHANGE_LISTENER = "removeOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_REMOVE_ALL_ON_ENVIRONMENT_CHANGE_LISTENER = "removeAllOnEnvironmentChangeListener";
-    public static final String METHOD_NAME_ON_ENVIRONMENT_CHANGE = "onEnvironmentChange";
+    private static final String METHOD_NAME_GET_XX_ENVIRONMENT = "get%sEnvironment";
+    private static final String METHOD_NAME_GET_XX_ENVIRONMENT_BEAN = "get%sEnvironmentBean";
+    private static final String METHOD_NAME_SET_XX_ENVIRONMENT = "set%sEnvironment";
+    private static final String METHOD_NAME_ADD_ON_ENVIRONMENT_CHANGE_LISTENER = "addOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_REMOVE_ON_ENVIRONMENT_CHANGE_LISTENER = "removeOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_REMOVE_ALL_ON_ENVIRONMENT_CHANGE_LISTENER = "removeAllOnEnvironmentChangeListener";
+    private static final String METHOD_NAME_ON_ENVIRONMENT_CHANGE = "onEnvironmentChange";
 
-    public static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
+    private static final String MODE_PRIVATE = "android.content.Context.MODE_PRIVATE";
 
-    public static final String VAR_CONTEXT = "context";
-    public static final String VAR_ENVIRONMENT_URL_SUFFIX = "Url";
-    public static final String VAR_ENVIRONMENT_NAME_SUFFIX = "Name";
-    public static final String VAR_ENVIRONMENT_ALIAS_SUFFIX = "Alias";
-    public static final String VAR_MODULE_PREFIX = "MODULE_";
-    public static final String VAR_DEFAULT_ENVIRONMENT_PREFIX = "DEFAULT_";
-    public static final String VAR_DEFAULT_ENVIRONMENT_SUFFIX = "_ENVIRONMENT";
-    public static final String VAR_CURRENT_XX_ENVIRONMENT = "sCurrent%sEnvironment";
-    public static final String VAR_MODULE_LIST = "MODULE_LIST";
-    public static final String VAR_ON_ENVIRONMENT_CHANGE_LISTENERS = "ON_ENVIRONMENT_CHANGE_LISTENERS";
+    private static final String VAR_CONTEXT = "context";
+    private static final String VAR_ENVIRONMENT_URL_SUFFIX = "Url";
+    private static final String VAR_ENVIRONMENT_NAME_SUFFIX = "Name";
+    private static final String VAR_ENVIRONMENT_ALIAS_SUFFIX = "Alias";
+    private static final String VAR_MODULE_PREFIX = "MODULE_";
+    private static final String VAR_DEFAULT_ENVIRONMENT_PREFIX = "DEFAULT_";
+    private static final String VAR_DEFAULT_ENVIRONMENT_SUFFIX = "_ENVIRONMENT";
+    private static final String VAR_CURRENT_XX_ENVIRONMENT = "sCurrent%sEnvironment";
+    private static final String VAR_MODULE_LIST = "MODULE_LIST";
+    private static final String VAR_ON_ENVIRONMENT_CHANGE_LISTENERS = "ON_ENVIRONMENT_CHANGE_LISTENERS";
 
-    public static final String VAR_PARAMETER_ON_ENVIRONMENT_CHANGE_LISTENER = "onEnvironmentChangeListener";
-    public static final String VAR_PARAMETER_IS_DEBUG = "isDebug";
-    public static final String VAR_PARAMETER_MODULE = "module";
-    public static final String VAR_PARAMETER_OLD_ENVIRONMENT = "oldEnvironment";
-    public static final String VAR_PARAMETER_NEW_ENVIRONMENT = "newEnvironment";
+    private static final String VAR_PARAMETER_ON_ENVIRONMENT_CHANGE_LISTENER = "onEnvironmentChangeListener";
+    private static final String VAR_PARAMETER_IS_DEBUG = "isDebug";
+    private static final String VAR_PARAMETER_MODULE = "module";
+    private static final String VAR_PARAMETER_OLD_ENVIRONMENT = "oldEnvironment";
+    private static final String VAR_PARAMETER_NEW_ENVIRONMENT = "newEnvironment";
 
-    public static final TypeName CONTEXT_TYPE_NAME = ClassName.get("android.content", "Context");
+    private static final TypeName CONTEXT_TYPE_NAME = ClassName.get("android.content", "Context");
 }
