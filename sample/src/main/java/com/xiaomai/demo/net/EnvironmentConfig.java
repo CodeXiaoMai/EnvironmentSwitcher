@@ -30,10 +30,10 @@ public class EnvironmentConfig {
      */
     @Module(alias = "音乐")
     private class Music {
-        @Environment(url = "https://www.xiaomai.ga/api/", isRelease = true, alias = "正式")
+        @Environment(url = "https://www.xiaomaimai.tk/api/", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "http://test.xiaomai.ga/api/", alias = "测试")
+        @Environment(url = "https://test.xiaomaimai.tk/api/", alias = "测试")
         private String test;
     }
 
