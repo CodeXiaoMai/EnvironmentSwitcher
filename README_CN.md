@@ -71,6 +71,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
 	        implementation "com.xiaomai.environmentswitcher:environmentswitcher:$version"
 	        debugAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler:$version"
 	        releaseAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:$version"
+		// 如果你的项目中还包含自定义的 flavor，还需要针对每个 flavor 配置
 	    }
 	    ```
     
@@ -84,6 +85,7 @@ version|[ ![Download](https://api.bintray.com/packages/xiaomai/maven/environment
 	        implementation "com.xiaomai.environmentswitcher:environmentswitcher:$version"
 	        kaptDebug "com.xiaomai.environmentswitcher:environmentswitcher-compiler:$version"
 	        kaptRelease "com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:$version"
+		// 如果你的项目中还包含自定义的 flavor，还需要针对每个 flavor 配置
 	    }
 	    ```
 
