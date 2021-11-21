@@ -1,14 +1,6 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.novoda.bintray-release'
-//
-//publish {
-//    userOrg = user_org
-//    groupId = group_id
-//    artifactId = artifactId_environment_switcher
-//    publishVersion = publishVersion_environment_switcher
-//    desc = ''
-//    website = web_site
-//}
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 android {
     compileSdkVersion compile_version
@@ -22,7 +14,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    packageBuildConfig false
+    buildFeatures {
+        buildConfig = false
+    }
 
     lintOptions {
         abortOnError false
@@ -36,4 +30,56 @@ dependencies {
 
     api project(':base')
 //    api "$group_id:$artifactId_base:$publishVersion_base"
+}
+
+archivesBaseName = "environmentswitcher"
+version = "1.0.0-SNAPSHOT"
+version = "1.6.0"
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'environmentswitcher'
+                packaging 'aar'
+                description 'Environmentswitcher library.'
+                url 'https://github.com/CodeXiaoMai/EnvironmentSwitcher'
+
+                scm {
+                    connection 'scm:git:git://github.com/CodeXiaoMai/EnvironmentSwitcher.git'
+                    developerConnection 'scm:git:git://github.com/CodeXiaoMai/EnvironmentSwitcher.git'
+                    url 'https://github.com/CodeXiaoMai/EnvironmentSwitcher/'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'codexiaomai'
+                        name 'Xiao Mai'
+                        email 'codexiaomai@gmail.com'
+                    }
+                }
+            }
+        }
+    }
 }

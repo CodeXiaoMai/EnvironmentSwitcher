@@ -21,7 +21,7 @@ public class EnvironmentConfig {
      */
     @Module
     private class App {
-        @Environment(url = "http://gank.io/api/", isRelease = true, alias = "正式")
+        @Environment(url = "https://wanandroid.com/", isRelease = true, alias = "正式")
         private String online;
     }
 
@@ -30,10 +30,10 @@ public class EnvironmentConfig {
      */
     @Module(alias = "音乐")
     private class Music {
-        @Environment(url = "https://www.xiaomaimai.tk/api/", isRelease = true, alias = "正式")
+        @Environment(url = "https://www.xiaomai.com/api/", isRelease = true, alias = "正式")
         private String online;
 
-        @Environment(url = "https://test.xiaomaimai.tk/api/", alias = "测试")
+        @Environment(url = "https://test.xiaomai.com/api/", alias = "测试")
         private String test;
     }
 

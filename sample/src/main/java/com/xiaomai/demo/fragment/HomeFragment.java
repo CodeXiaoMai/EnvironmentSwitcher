@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -36,7 +37,7 @@ public class HomeFragment extends Fragment {
     private MyAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private List<GankResponse.ResultsBean.AndroidBean> ganks = new ArrayList<>();
+    private List<GankResponse.Data> ganks = new ArrayList<>();
 
     @Nullable
     @Override
@@ -79,29 +80,25 @@ public class HomeFragment extends Fragment {
                 .getGank()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GankResponse>() {
+                .subscribe(new SingleObserver<GankResponse>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
+                    public void onSubscribe(@NonNull Disposable d) {
                     }
 
                     @Override
-                    public void onNext(GankResponse value) {
+                    public void onSuccess(@NonNull GankResponse value) {
                         Log.e(TAG, "onNext: " + value.toString());
-                        ganks = value.getResults().getAndroid();
+                        ganks = value.getData();
                         adapter.notifyDataSetChanged();
                         tvError.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NonNull Throwable e) {
                         Log.e(TAG, "onError: ", e);
                         swipeRefreshLayout.setRefreshing(false);
                         tvError.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -120,7 +117,7 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        public GankResponse.ResultsBean.AndroidBean getItem(int position) {
+        public GankResponse.Data getItem(int position) {
             return ganks.get(position);
         }
 
@@ -141,8 +138,8 @@ public class HomeFragment extends Fragment {
             } else {
                 holder = (Holder) convertView.getTag();
             }
-            holder.tvTitle.setText(getItem(position).getDesc());
-            holder.tvWho.setText(getItem(position).getWho());
+            holder.tvTitle.setText(getItem(position).getId() + "");
+            holder.tvWho.setText(getItem(position).getName());
             return convertView;
         }
 
@@ -151,4 +148,5 @@ public class HomeFragment extends Fragment {
             TextView tvWho;
         }
     }
+
 }

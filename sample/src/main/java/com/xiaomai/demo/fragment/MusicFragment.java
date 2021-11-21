@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.xiaomai.demo.BuildConfig;
 import com.xiaomai.demo.R;
 import com.xiaomai.demo.data.Api;
 import com.xiaomai.demo.data.MusicResponse;
 import com.xiaomai.demo.net.AppRetrofit;
+import com.xiaomai.environmentswitcher.EnvironmentSwitcher;
 
 import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -39,7 +42,7 @@ public class MusicFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getMusicList();
+//                getMusicList();
             }
         });
     }
@@ -47,7 +50,8 @@ public class MusicFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getMusicList();
+        textView.setText(EnvironmentSwitcher.getMusicEnvironment(getContext(), BuildConfig.DEBUG));
+//        getMusicList();
     }
 
     private void getMusicList() {
@@ -55,7 +59,7 @@ public class MusicFragment extends Fragment {
                 .getMusic()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MusicResponse>() {
+                .subscribe(new SingleObserver<MusicResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.d(TAG, "onSubscribe: ");
@@ -63,8 +67,8 @@ public class MusicFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(MusicResponse musicResponse) {
-                        Log.e(TAG, "onNext: " + musicResponse);
+                    public void onSuccess(@NonNull MusicResponse musicResponse) {
+                        Log.e(TAG, "onSuccess: " + musicResponse);
                         textView.setText(musicResponse.getValue());
                     }
 
@@ -72,11 +76,6 @@ public class MusicFragment extends Fragment {
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: ", e);
                         textView.setText(R.string.load_fail_click_reload);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(TAG, "onComplete: ");
                     }
                 });
     }

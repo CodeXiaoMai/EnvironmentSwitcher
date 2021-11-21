@@ -7,7 +7,7 @@ import java.io.Serializable;
  * EnvironmentSwitcher.java 文件中生成与之一一对应的 {@link EnvironmentBean}。
  * <p>
  * Each attribute marked by {@link com.xiaomai.environmentswitcher.annotation.Environment}
- * will generate a one-to-one correspondence with {@link EnvironmentBean} in the  EnvironmentSwitcher.java file at compile time.
+ * will generate a one-to-one correspondence with {@link EnvironmentBean} in the EnvironmentSwitcher.java file at compile time.
  */
 public class EnvironmentBean implements Serializable {
     private String name;

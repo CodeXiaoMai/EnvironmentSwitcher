@@ -36,6 +36,10 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Module.class);
 
+        if (elements == null || elements.isEmpty()) {
+            return false;
+        }
+
         TypeSpec.Builder environmentSwitcherClassBuilder = TypeSpec
                 .classBuilder(Constants.ENVIRONMENT_SWITCHER_FILE_NAME)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
@@ -285,7 +289,7 @@ public class EnvironmentSwitcherCompilerDebug extends AbstractProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.RELEASE_7;
+        return SourceVersion.RELEASE_8;
     }
 
     public static final String ENVIRONMENT = "Environment";

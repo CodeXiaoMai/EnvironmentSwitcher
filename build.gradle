@@ -3,12 +3,13 @@
 buildscript {
 
     repositories {
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        mavenCentral()
         google()
-        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -16,9 +17,17 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        mavenCentral()
+        mavenCentral() {
+            url 'https://s01.oss.sonatype.org/service/local/repositories/releases/content/'
+        }
+        mavenCentral() {
+            url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+        }
         google()
-        jcenter()
-        maven { url 'https://dl.bintray.com/xiaomai/maven/' }
     }
 }
 
@@ -30,30 +39,14 @@ ext {
     compile_version = 27
 
     //snapshot
-//    artifactId_base = 'environmentswitcher-base-snapshot'
-//    artifactId_compiler = 'environmentswitcher-compiler-snapshot'
-//    artifactId_compiler_release = 'environmentswitcher-compiler-release-snapshot'
-//    artifactId_environment_switcher = 'environmentswitcher-snapshot'
-//
 //    publishVersion_base = '0.0.3'
 //    publishVersion_compiler = '0.0.4'
 //    publishVersion_compiler_release = publishVersion_compiler
 //    publishVersion_environment_switcher = publishVersion_base
 
     // release
-    artifactId_base = 'environmentswitcher-base'
-    artifactId_compiler = 'environmentswitcher-compiler'
-    artifactId_compiler_release = 'environmentswitcher-compiler-release'
-    artifactId_environment_switcher = 'environmentswitcher'
-
     publishVersion_base = '1.5.2'
     publishVersion_compiler = '1.5.3'
     publishVersion_compiler_release = publishVersion_compiler
     publishVersion_environment_switcher = publishVersion_base
-
-    user_org = "xiaomai"
-    user_emial = "xiaomai949804781@gmail.com"
-    group_id = "com.xiaomai.environmentswitcher"
-    web_site = "https://github.com/CodeXiaoMai/EnvironmentSwitcher"
-    gitUrl = "https://github.com/CodeXiaoMai/EnvironmentSwitcher.git"
 }

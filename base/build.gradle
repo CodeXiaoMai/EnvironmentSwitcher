@@ -1,21 +1,77 @@
 apply plugin: 'java-library'
-//apply plugin: 'com.novoda.bintray-release'
-//
-//publish{
-//    userOrg = user_org
-//    groupId = group_id
-//    artifactId = artifactId_base
-//    publishVersion = publishVersion_base
-//    desc = ''
-//    website = web_site
-//}
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.squareup:javapoet:1.9.0'
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
-// ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+archivesBaseName = "base"
+version = "1.6.0"
+//version = "1.0.0-SNAPSHOT"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'base'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Base library for EnvironmentSwitcher.'
+                url 'https://github.com/CodeXiaoMai/EnvironmentSwitcher'
+
+                scm {
+                    connection 'scm:git:git://github.com/CodeXiaoMai/EnvironmentSwitcher.git'
+                    developerConnection 'scm:git:git://github.com/CodeXiaoMai/EnvironmentSwitcher.git'
+                    url 'https://github.com/CodeXiaoMai/EnvironmentSwitcher/'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'codexiaomai'
+                        name 'Xiao Mai'
+                        email 'codexiaomai@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}

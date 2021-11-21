@@ -22,8 +22,7 @@ public class AppRetrofit {
             sMusicHost = host;
             sMusicRetrofit = new Retrofit.Builder()
                     .baseUrl(sMusicHost)
-                    .client(new OkHttpClient.Builder()
-                            .build())
+                    .client(new OkHttpClient.Builder().build())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -41,8 +40,7 @@ public class AppRetrofit {
             sAppHost = host;
             sAppRetrofit = new Retrofit.Builder()
                     .baseUrl(sAppHost)
-                    .client(new OkHttpClient.Builder()
-                            .build())
+                    .client(new OkHttpClient.Builder().build())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
